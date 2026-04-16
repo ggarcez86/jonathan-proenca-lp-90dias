@@ -313,13 +313,14 @@ Essa aula é a minha forma de provar isso antes de qualquer outra coisa.
 ### Headline final
 
 ```
-Sua próxima promoção começa nessa aula.
+Sua próxima promoção pode começar aqui.
 ```
 
 ### Subheadline final
 
 ```
-Gratuito. Ao vivo. Uma vez só.
+Gratuito. Ao vivo. Sem replay.
+E com aplicação prática imediata.
 Garanta seu lugar antes que as vagas fechem.
 ```
 

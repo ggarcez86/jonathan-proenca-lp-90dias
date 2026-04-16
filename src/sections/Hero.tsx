@@ -64,7 +64,6 @@ export default function Hero() {
             alt="Jonathan Proença"
             fill
             priority
-            quality={100}
             unoptimized={true}
             className="object-cover object-[center_30%]"
           />
@@ -78,7 +77,7 @@ export default function Hero() {
         <div className="flex flex-col lg:flex-row w-full justify-between gap-12 lg:gap-8 min-h-[90vh] items-center">
           
           {/* LADO ESQUERDO: Texto + Form Prensado */}
-          <div className="flex flex-col w-full lg:w-[500px] xl:w-[540px] text-left pt-12 lg:pt-0">
+          <div className="flex flex-col w-full lg:w-[48%] xl:w-[45%] max-w-[640px] text-left pt-12 lg:pt-0 shrink-0">
             <motion.div 
               initial="hidden"
               animate="visible"
@@ -102,14 +101,14 @@ export default function Hero() {
               </motion.h1>
               
               {/* Subheadline + Copy */}
-              <motion.p variants={fadeUpBlur} className="text-[1.05rem] md:text-[1.1rem] text-text-mid font-body leading-[1.6] font-light mb-6 w-full">
+              <motion.p variants={fadeUpBlur} className="text-[1.1rem] sm:text-[1.2rem] xl:text-[1.35rem] text-text-mid font-body leading-[1.6] font-light mb-6 w-full">
                 Mesmo que você já tenha tentado de tudo.<br/>
                 Mesmo que seu gestor nunca te dê feedback claro.<br/>
                 Não é azar, é porque ninguém te ensinou as regras do jogo.
               </motion.p>
               
-              {/* FORMULÁRIO COLADO ABAIXO: (Magic Card Beam vem de dentro dele) */}
-              <motion.div variants={fadeUpBlur} className="w-full relative z-20 mt-4">
+              {/* max-w-full deixa a tabela preencher o container esquerdo confortavelmente sem espremer */}
+              <motion.div variants={fadeUpBlur} className="w-full relative z-20 mt-10 lg:mt-14">
                 <CaptureForm variant="hero" />
               </motion.div>
 

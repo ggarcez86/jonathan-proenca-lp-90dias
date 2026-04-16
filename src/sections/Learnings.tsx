@@ -1,25 +1,70 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function Learnings() {
   const learnings = [
-    "Por que profissionais que entregam menos são promovidos antes de você — e como virar esse jogo",
-    "O erro silencioso que transforma bons profissionais em \"insubstituíveis no cargo\" — e como sair dessa armadilha",
-    "Como decodificar o perfil do seu gestor e falar exatamente o que ele precisa ouvir para te promover",
-    "A conversa que você nunca teve com a sua liderança — e que pode mudar tudo em 90 dias",
-    "Como usar inteligência artificial para multiplicar seus resultados e criar visibilidade na sua empresa"
+    {
+      title: "Por que profissionais que entregam menos são promovidos antes de você",
+      desc: "— e como virar esse jogo."
+    },
+    {
+      title: "O erro silencioso que transforma bons profissionais em \"insubstituíveis no cargo\"",
+      desc: "— e como sair dessa armadilha."
+    },
+    {
+      title: "Como decodificar o perfil do seu gestor",
+      desc: "— e falar exatamente o que ele precisa ouvir para te promover."
+    },
+    {
+      title: "A conversa que você nunca teve com a sua liderança",
+      desc: "— e que pode mudar tudo em 90 dias."
+    },
+    {
+      title: "Como usar inteligência artificial para multiplicar seus resultados",
+      desc: "— e criar visibilidade na sua empresa."
+    },
+    {
+      title: "Como aplicar tudo isso já nos primeiros dias",
+      desc: "— o passo a passo pra entrar em ação imediatamente."
+    }
   ];
 
   return (
-    <section className="py-32 px-6 max-w-4xl mx-auto border-b border-border">
-      <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-text-high mb-16 tracking-tight">O que você vai descobrir nessa aula</h2>
-      <div className="grid gap-12 sm:gap-16">
+    <section className="py-24 lg:py-32 px-6 max-w-[1300px] mx-auto border-b border-border">
+      <h2 className="font-display text-4xl sm:text-5xl lg:text-[4rem] text-accent italic mb-16 tracking-tight leading-[0.9]">
+        O que você vai descobrir nessa aula
+      </h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {learnings.map((item, i) => (
-          <div key={i} className="grid grid-cols-[auto_1fr] gap-6 sm:gap-10 items-start group">
-            <span className="font-display text-6xl sm:text-7xl text-accent/40 leading-[0.7] group-hover:text-accent/80 transition-colors duration-500">
-              0{i + 1}
-            </span>
-            <p className="text-lg sm:text-xl text-text-mid font-body leading-relaxed max-w-2xl group-hover:text-text-high transition-colors duration-500">
-              {item}
-            </p>
-          </div>
+          <motion.div 
+            key={i}
+            whileHover={{ scale: 0.97, backgroundColor: "#171719" }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="group relative p-8 sm:p-10 rounded-3xl bg-[#0D0D0E] border border-white/5 flex flex-col justify-start min-h-[260px] overflow-hidden"
+          >
+            {/* Number */}
+            <div className="mb-6">
+              <span className="font-display text-xl sm:text-2xl text-text-low opacity-50 group-hover:opacity-100 group-hover:text-accent transition-colors">
+                0{i + 1}
+              </span>
+            </div>
+
+            {/* Content */}
+            <div className="flex flex-col gap-3">
+               <h3 className="text-xl sm:text-[1.3rem] leading-snug text-text-high font-body font-light group-hover:text-accent transition-colors duration-500 pr-4">
+                 {item.title}
+               </h3>
+               
+               <p className="text-[13px] sm:text-[14px] text-text-mid font-body font-light italic leading-relaxed group-hover:text-text-high transition-colors duration-500">
+                 {item.desc}
+               </p>
+            </div>
+
+            {/* Subtle Gradient Glow that appears on hover inside the card */}
+            <div className="absolute -inset-px rounded-3xl z-[-1] opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br from-accent via-transparent to-transparent" />
+          </motion.div>
         ))}
       </div>
     </section>

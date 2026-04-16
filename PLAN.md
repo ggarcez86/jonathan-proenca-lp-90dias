@@ -217,7 +217,7 @@ Se o agente parecer estar construindo algo genérico, pare e peça explicitament
 _Registrar aqui decisões importantes tomadas durante a produção que não estavam no PRD, com data._
 
 - [2026-04-16] — [M0.5] Escolhida a "Direção B: O Split Cinematográfico" sugerida pela pesquisa de referências, pois ela alinha perfeitamente as expectativas de layout Desktop do PRD (texto esquerda, foto e form à direita), otimizando a conversão para High-Ticket.
-- [YYYY-MM-DD] — [Decisão]
+- [2026-04-16] — [M-Extra Visual] Refatoração avançada nas sessões de Learnings (Magic Cards), TargetAudience (Lista Editorial em Cascata) e ExpertBio (Editorial assimétrico fotográfico) espelhando rigorosamente as referências visuais em anexo, alinhadas às skills de premium-ui-design.
 
 ---
 
