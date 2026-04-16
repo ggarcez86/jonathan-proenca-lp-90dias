@@ -111,90 +111,44 @@ Se o agente parecer estar construindo algo genérico, pare e peça explicitament
 - [x] Adicionar todos assets em `public/assets/` com nomes semânticos
 - [x] Validar carregamento: todos assets têm alt text e WebP com fallback PNG onde necessário
 
-## M5 — Lógica do Formulário
+## M5 — Lógica do Formulário (DB / Backend)
 
-- [x] Criar schema Zod em `src/lib/schemas/captureForm.ts` (nome, email valid, whatsapp valid)
-- [x] Implementar máscara de WhatsApp no input (use-mask-input ou lógica manual com regex)
-- [x] Conectar `CaptureForm.tsx` ao `react-hook-form` com `zodResolver`
-- [x] Criar `src/lib/google-sheets.ts` com função `appendToSheet()` usando `googleapis`
-- [x] Criar Server Action `src/app/actions/submitCapture.ts` (validate → append → return)
-- [x] Adicionar timeout (8s) e retry (1 tentativa) no Server Action (sheets API pode ser instável)
-- [x] Adicionar log de fallback: se Sheets falhar por timeout/permissão, logar no console do servidor + retornar success para o cliente não ser bloqueado
-- [x] Implementar estados visuais do form: idle → submitting (desabilita fields, loading state no botão) → success (redirect) → error (show message)
-- [x] Adicionar honeypot field oculto para proteção contra bots
+> **Decisão Pendente:** Supabase Oficializado com Bypass RLS.
+
+- [x] Escolher a infraestrutura de Banco de Dados.
+- [x] Configurar conexão com o serviço escolhido (`src/lib/db`).
+- [x] Criar Server Action `src/app/actions/submitCapture.ts`.
+- [x] Adicionar proteção de envios (Honeypot) e tratamentos de erro UI.
+- [x] Conectar `CaptureForm.tsx` e validar submissão fluida.
 
 ## M6 — Pós-Submit e Thank You Page
 
-- [ ] Criar `src/app/obrigado/page.tsx` com estrutura completa
-- [ ] Na `/obrigado`: mensagem de confirmação grande, detalhes do webinário (data, hora), botão WhatsApp, "adicionar ao calendário"
-- [ ] Implementar redirect do form para `/obrigado` após submit bem-sucedido
-- [ ] Disparar `Lead` event do Meta Pixel e `form_success` do GA4 na `/obrigado`
-- [ ] Adicionar botão "Entrar no grupo do WhatsApp" com link do env var
-- [ ] Adicionar botões "Adicionar ao Google Calendar" e "Adicionar ao Outlook" (URLs geradas dinamicamente)
-- [ ] Testar fluxo completo: home → form → submit → redirect → thank you funcional
+- [x] Criar `src/app/obrigado/page.tsx`.
+- [x] Inserir copy simples e direta com foco na confirmação do envio de reminder por email/whatsapp.
+- [x] Remover dependências engessadas de grupos do WhatsApp.
+- [x] Garantir redirect suave de `/` para `/obrigado` após o sucesso do formulário.
 
-## M7 — Responsividade e Acessibilidade
+## M7 — Auditoria Visual (Sanity Check)
 
-- [ ] Testar em 375px (iPhone SE) — ajustar onde quebrar
-- [ ] Testar em 414px (iPhone Pro)
-- [ ] Testar em 768px (tablet portrait)
-- [ ] Testar em 1024px (tablet landscape / laptop pequeno)
-- [ ] Testar em 1440px e 1920px (desktop)
-- [ ] No mobile: garantir que há um CTA visível acima da dobra OU scroll suave pro form quando clica no CTA
-- [ ] Validar navegação por teclado (Tab, Shift+Tab, Enter) em toda a página
-- [ ] Adicionar `aria-label` em ícones decorativos (`aria-hidden="true"`)
-- [ ] Adicionar `aria-live="polite"` nos campos de erro do form
-- [ ] Validar contraste com WebAIM Contrast Checker (foco em Surface 1 vs text-mid)
-- [ ] Testar por 5 min com VoiceOver (Mac) ou NVDA (Windows)
-- [ ] Respeitar `prefers-reduced-motion` nas animações (desativar Framer Motion se preferência for reduzida)
+- [x] Validação rápida de responsividade base da UI (celular vs desktop).
+- [x] Garantir que o texto na versão mobile nunca "vaze" pra fora da tela (overflow horizontal).
+- [x] Conferir legibilidade final dos textos em telas muito pequenas (iPhone SE).
 
-## M8 — Analytics e Tracking
+## M8 — Custom Analytics Dashboard (`/dashboard`)
 
-- [ ] Criar property GA4 (se ainda não existe)
-- [ ] Implementar `GoogleAnalytics` component no `layout.tsx` (Next 15 tem suporte nativo via next/third-parties)
-- [ ] Criar Pixel do Meta (se ainda não existe)
-- [ ] Implementar Meta Pixel no `layout.tsx` com strategy "afterInteractive"
-- [ ] Implementar `trackEvent()` helper em `src/lib/analytics.ts`
-- [ ] Disparar `page_view` automático (padrão)
-- [ ] Implementar scroll depth tracking (Intersection Observer em 50% e 90%)
-- [ ] Disparar `form_view` quando form entra no viewport
-- [ ] Disparar `form_start` no primeiro focus em campo
-- [ ] Disparar `form_submit_click` ao clicar botão
-- [ ] Disparar `form_success` e `Lead` após sucesso
-- [ ] Disparar `form_error` em caso de erro
-- [ ] Testar no GA4 DebugView que todos eventos disparam
-- [ ] Testar com Meta Pixel Helper (extensão Chrome) que eventos chegam no Facebook
+- [x] Criar framework de autenticação leve. (Auth Cookie criptografado Next.js).
+- [x] Implementar rota protegida `/dashboard`.
+- [x] Registrar Page Views (/) e Conversões (/obrigado) de form orgânica baseada em logs ou contadores no banco de dados escolhido no M5.
+- [x] Criar UI do Dashboard puxando os dados (Taxa de Conversão, Volume Absoluto).
+- [x] Implementar filtros simples sugeridos (Range de datas, métricas geográficas/fontes básicas se capturáveis via headers da requisição `x-forwarded-for`).
+- [x] Nota: _Rastreamento complexo de Meta/Google Ads transferido para o GTM proprietário._
 
-## M9 — QA e Pré-launch
+## M10 — Deploy da Aplicação Final
 
-- [ ] Rodar Lighthouse mobile (Slow 4G, Low-tier) — target ≥90 em Performance
-- [ ] Rodar Lighthouse desktop — target ≥95 em Performance
-- [ ] Testar form em Chrome, Safari, Firefox (desktop) — últimas 2 versões
-- [ ] Testar form em iOS Safari (iPhone real ou BrowserStack)
-- [ ] Testar form em Chrome Android (Android real ou BrowserStack)
-- [ ] Testar com dados inválidos: email malformado, WhatsApp curto — deve mostrar erros claros
-- [ ] Verificar zero erros no console em nenhum navegador
-- [ ] Verificar zero warnings no console que afetem produção
-- [ ] Validar todas as imagens têm alt text
-- [ ] Revisão final da copy (nenhum erro de digitação, acentuação correta)
-- [ ] Validar metadata OG no opengraph.xyz
-- [ ] Validar schema.org no Google Rich Results Test
-- [ ] Validar mobile usability no Google Search Console (quando publicar)
-
-## M10 — Deploy e Smoke Test
-
-- [ ] Criar projeto Vercel e conectar ao repo GitHub
-- [ ] Configurar todas as env vars em Vercel (Production + Preview)
-- [ ] Deploy inicial em Preview (não production)
-- [ ] Smoke test no preview URL: submit funciona, lead chega na planilha
-- [ ] Deploy para Production
-- [ ] Configurar domínio customizado (se aplicável) + SSL
-- [ ] Submit de teste em produção — lead chega com dados corretos na planilha
-- [ ] Verificar no GA4 realtime que eventos estão chegando
-- [ ] Verificar no Meta Events Manager que `Lead` está chegando
-- [ ] Configurar redirect de `www` para non-www (ou vice-versa) no Vercel
-- [ ] Tag de release no Git: `v1.0.0`
-- [ ] Comunicar ao Jonathan que a página está pronta, enviar link e instruções de monitoramento
+- [ ] Configurar projeto e domínios na Vercel.
+- [ ] Injetar Variáveis de Ambiente de DB e Auth na Vercel.
+- [ ] Validar rotas de Server Actions em ambiente de produção (CORS, cache headers).
+- [ ] Smoke test do preenchimento e log do IP no Analytics.
 
 ---
 

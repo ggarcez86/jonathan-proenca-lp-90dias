@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Instrument_Serif } from "next/font/google";
 import Analytics from "@/components/Analytics";
+import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CustomCursor } from "@/components/magicui/CustomCursor";
 import "../styles/globals.css";
 
@@ -33,6 +34,7 @@ export default function RootLayout({
       >
         <CustomCursor />
         {children}
+        <AnalyticsTracker />
         <Analytics />
       </body>
     </html>
