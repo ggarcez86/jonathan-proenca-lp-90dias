@@ -1,0 +1,236 @@
+# PLAN.md — Landing Page "Como Ser Promovido em 90 Dias"
+
+> **Instruções para o agente (Claude / Gemini / Copilot):**
+> Este é um documento vivo. Ao completar uma tarefa, atualize o checkbox correspondente de `- [ ]` para `- [x]` ANTES de passar para a próxima. Se uma tarefa gerar sub-tarefas imprevistas, adicione-as sob o milestone atual. No final de cada sessão, valide que este arquivo reflete o estado real do projeto.
+
+---
+
+## Status Atual
+
+**Projeto iniciado:** _preencher ao começar_
+**Última atualização:** _preencher a cada sessão_
+**Milestone atual:** M0 — Project Setup
+**Próxima tarefa:** Criar repositório Git no GitHub
+
+---
+
+## Skills a serem usadas neste projeto
+
+Este projeto se apoia em 4 skills instaladas no agente. Cada uma dispara em momentos específicos:
+
+| Skill | Quando disparar | Milestone |
+|---|---|---|
+| `capture-page-inspiration` | Antes de começar o visual — pra coletar referências | M0.5 |
+| `capture-page-ux` | Durante decisões de estrutura/form/objeções (já aplicadas no PRD, mas consulta novamente se houver dúvida) | M2, M5, M6 |
+| `premium-ui-design` | Toda vez que for criar/refinar um componente visual — dispara automaticamente pelos triggers | M1, M3 (principalmente) |
+| `capture-page-planner` | Já foi usada pra gerar este PLAN.md, PRD.md, COPY.md, ASSETS.md — não precisa disparar de novo | Pré-M0 |
+
+Se o agente parecer estar construindo algo genérico, pare e peça explicitamente: "Use a skill [nome] pra isso."
+
+---
+
+## M0 — Project Setup
+
+- [ ] Criar repositório Git no GitHub (`jonathan-proenca-lp-90dias` ou similar)
+- [x] Inicializar projeto Next.js 15 com TypeScript e Tailwind (`npx create-next-app@latest . --typescript --tailwind --app --src-dir --import-alias "@/*"`)
+- [x] Configurar ESLint + Prettier (prettier-plugin-tailwindcss incluído)
+- [x] Instalar dependências: `pnpm add react-hook-form zod @hookform/resolvers googleapis framer-motion lucide-react`
+- [x] Criar `.env.example` com todas as variáveis de ambiente (SEM valores reais)
+- [x] Criar `.env.local` com valores reais (adicionar ao `.gitignore` — já deve estar por padrão)
+- [ ] Configurar `next.config.ts` (imagens, fonts, headers de segurança)
+- [x] Criar estrutura de pastas: `src/components`, `src/sections`, `src/lib`, `src/styles`, `src/app/actions`, `public/assets`
+- [ ] Commit inicial: "chore: initial project setup"
+
+## M0.5 — Research Visual (skill: capture-page-inspiration)
+
+> **Objetivo:** Antes de escrever qualquer CSS, rodar a skill `capture-page-inspiration` para coletar referências de LPs premium e travar a direção visual em evidências concretas (não em achismo).
+
+- [ ] Abrir conversa com o agente pedindo explicitamente: "Use a skill capture-page-inspiration para este projeto. Contexto: LP de captura de webinário gratuito do Jonathan Proença sobre promoção de carreira em 90 dias, tráfego pago, audiência executivos mid-senior, estética Dark AI-forward (já escolhida no PRD)."
+- [ ] Revisar o output da skill: 8–12 referências analisadas + moodboard consolidado + 3 direções de layout propostas
+- [ ] Escolher UMA das 3 direções propostas e registrar a decisão em PLAN.md > "Notas e Decisões"
+- [ ] Salvar output da skill como `INSPIRATION.md` na raiz do projeto (serve de referência visual durante todo o build)
+- [ ] Se alguma referência específica será muito espelhada, salvar screenshot em `docs/references/` do projeto
+
+## M1 — Design Tokens e Estrutura Estática
+
+> **Pré-requisito:** Direção visual travada em M0.5. A skill `premium-ui-design` vai disparar automaticamente durante as tarefas visuais deste milestone e dos próximos.
+
+- [ ] Criar `src/styles/tokens.css` com as CSS variables Dark AI-forward (cores, fontes, spacing) — ver PRD
+- [ ] Importar `tokens.css` no `src/app/globals.css`
+- [ ] Configurar `tailwind.config.ts` (v4) mapeando as CSS variables para classes Tailwind (`bg-bg`, `text-text-high`, `border-border`, etc)
+- [ ] Configurar fontes via `next/font`: Instrument Serif (display) + Geist (body) no `app/layout.tsx`
+- [ ] Criar skeleton dos componentes em `src/sections/`: `UrgencyBar.tsx`, `Hero.tsx`, `Learnings.tsx`, `TargetAudience.tsx`, `ExpertBio.tsx`, `WhyFree.tsx`, `FinalCTA.tsx`, `Footer.tsx`
+- [ ] Criar `src/components/CaptureForm.tsx` (esqueleto, sem lógica ainda)
+- [ ] Montar `src/app/page.tsx` importando todas as seções na ordem correta
+- [ ] Validar que página renderiza (estrutura visível, ainda sem design)
+
+## M2 — Copy Final em Cada Seção
+
+> **IMPORTANTE:** A fonte de verdade da copy é o arquivo `COPY.md` na raiz do projeto. Para cada tarefa abaixo, abra o COPY.md, localize a seção correspondente e **copie o texto literal**. Não parafraseie, não resuma, não reordene frases. Se houver sugestões marcadas como `<!-- OPCIONAL -->`, use o texto original por padrão (o Gustavo decide se aceita a sugestão).
+
+- [ ] Inserir copy em `UrgencyBar.tsx` — fonte: `COPY.md > BARRA DE URGÊNCIA`
+- [ ] Inserir Badge em `Hero.tsx` — fonte: `COPY.md > HERO > Badge`
+- [ ] Inserir Headline em `Hero.tsx` — fonte: `COPY.md > HERO > Headline` (atentar ao `<em>` em "nenhum diretor vai te ensinar")
+- [ ] Inserir Subheadline em `Hero.tsx` — fonte: `COPY.md > HERO > Subheadline`
+- [ ] Inserir Corpo do Hero (5 parágrafos) em `Hero.tsx` — fonte: `COPY.md > HERO > Corpo do Hero` (Parágrafo 4 com tratamento visual destacado)
+- [ ] Inserir copy do formulário em `CaptureForm.tsx` — fonte: `COPY.md > FORMULÁRIO DE CAPTURA` (headline, sub-headline, labels, placeholders, helper text, botão, disclaimer, mensagens de erro)
+- [ ] Inserir copy em `Learnings.tsx` — fonte: `COPY.md > SEÇÃO — O QUE VOCÊ VAI APRENDER` (heading + 5 itens numerados)
+- [ ] Inserir copy em `TargetAudience.tsx` — fonte: `COPY.md > SEÇÃO — ESSA AULA É PARA VOCÊ SE...` (heading + 5 itens)
+- [ ] Inserir copy em `ExpertBio.tsx` — fonte: `COPY.md > SEÇÃO — QUEM É JONATHAN PROENÇA` (7 parágrafos, Parágrafo 4 como pull quote)
+- [ ] Inserir copy em `WhyFree.tsx` — fonte: `COPY.md > SEÇÃO — POR QUE É GRATUITO?` (4 parágrafos)
+- [ ] Inserir copy em `FinalCTA.tsx` — fonte: `COPY.md > SEÇÃO — CTA FINAL` (headline, subheadline, botão, microcopy)
+- [ ] Inserir copy da página `/obrigado` — fonte: `COPY.md > PÁGINA /OBRIGADO`
+- [ ] Preencher metadata em `layout.tsx` — fonte: `COPY.md > METADATA`
+- [ ] Inserir copy do footer em `Footer.tsx` — fonte: `COPY.md > FOOTER`
+- [ ] **Validação final:** abrir a página renderizada lado-a-lado com o COPY.md e verificar frase a frase. Qualquer divergência = bug a corrigir antes de M3.
+
+## M3 — Visual Polish (Dark AI-forward)
+
+- [ ] **UrgencyBar:** background sutil (warm amber 10% opacity), texto accent, border-bottom fino, padding moderado — não agressivo
+- [ ] **Hero:** layout split desktop (3:2), background gradient mesh (gold radial top-right), texto em Instrument Serif com H1 em tamanho clamp(3rem, 7vw, 6rem)
+- [ ] **Hero form:** Surface 1 com border sutil, labels em uppercase letter-spaced, inputs em Surface 2, botão accent
+- [ ] **Learnings:** numbered list com números em Instrument Serif oversized (não ícones em círculo) — ver component-patterns
+- [ ] **TargetAudience:** vertical list com separadores hairline, sem cards genéricos
+- [ ] **ExpertBio:** layout editorial com foto à esquerda e texto prose à direita, pull quote de "mais de 11 promoções" destacada
+- [ ] **WhyFree:** seção intimista, max-width ~640px, centralizada, tipografia quiet
+- [ ] **FinalCTA:** tratamento dramático — background full Surface 1, headline em serif grande, form repetido centralizado
+- [ ] **Footer:** minimalista, só nome do Jonathan + ano + link pra política de privacidade
+- [ ] Implementar motion: hero reveal orchestrated com Framer Motion (stagger children, blur + y-translate)
+- [ ] Implementar hover states: CTA com subtle brightness shift, links com underline slide-in
+- [ ] Rodar self-audit da skill `premium-ui-design` e corrigir qualquer item que falhou
+
+## M4 — Assets Externos (executar em paralelo, ver ASSETS.md)
+
+- [ ] Receber/obter foto do Jonathan em alta qualidade
+- [ ] Tratar foto: remover background (remove.bg), color grade para combinar com paleta dark, export em WebP 1200x1600
+- [ ] Decidir: background do hero via CSS puro (gradient mesh) OU gerar em Midjourney/Flux
+- [ ] Se gerar: executar prompts de `asset-prompting.md` (Dark AI-forward), escolher melhor variação, tratar e exportar
+- [ ] Integrar foto + background no `HeroImageComposite.tsx` usando Next/Image com `priority`
+- [ ] Gerar OG Image 1200x630 via Next.js `ImageResponse` (app/opengraph-image.tsx) OU manualmente no Figma
+- [ ] Gerar favicon e ícones do app via RealFaviconGenerator
+- [ ] Adicionar todos assets em `public/assets/` com nomes semânticos
+- [ ] Validar carregamento: todos assets têm alt text e WebP com fallback PNG onde necessário
+
+## M5 — Lógica do Formulário
+
+- [ ] Criar schema Zod em `src/lib/schemas/captureForm.ts` (name, email, whatsapp com validações)
+- [ ] Implementar máscara de WhatsApp no input (use-mask-input ou lógica manual com regex)
+- [ ] Conectar `CaptureForm.tsx` ao `react-hook-form` com `zodResolver`
+- [ ] Criar planilha no Google Sheets com cabeçalhos: timestamp, name, email, whatsapp, source, user_agent
+- [ ] Criar Service Account no Google Cloud Console, baixar JSON de credenciais
+- [ ] Compartilhar planilha com email do Service Account (Editor)
+- [ ] Adicionar env vars em `.env.local` (GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY, GOOGLE_SHEET_ID)
+- [ ] Criar `src/lib/google-sheets.ts` com função `appendToSheet()` usando `googleapis`
+- [ ] Criar Server Action `src/app/actions/submitCapture.ts` (validate → append → return)
+- [ ] Adicionar timeout (8s) e retry (1 tentativa) no Server Action
+- [ ] Adicionar log de fallback: se Sheets falhar, logar no console do servidor + retornar success para o cliente
+- [ ] Implementar estados visuais do form: idle → submitting → success → error
+- [ ] Testar submit end-to-end: form preenchido → lead aparece na planilha
+- [ ] Adicionar honeypot field oculto para proteção contra bots
+
+## M6 — Pós-Submit e Thank You Page
+
+- [ ] Criar `src/app/obrigado/page.tsx` com estrutura completa
+- [ ] Na `/obrigado`: mensagem de confirmação grande, detalhes do webinário (data, hora), botão WhatsApp, "adicionar ao calendário"
+- [ ] Implementar redirect do form para `/obrigado` após submit bem-sucedido
+- [ ] Disparar `Lead` event do Meta Pixel e `form_success` do GA4 na `/obrigado`
+- [ ] Adicionar botão "Entrar no grupo do WhatsApp" com link do env var
+- [ ] Adicionar botões "Adicionar ao Google Calendar" e "Adicionar ao Outlook" (URLs geradas dinamicamente)
+- [ ] Testar fluxo completo: home → form → submit → redirect → thank you funcional
+
+## M7 — Responsividade e Acessibilidade
+
+- [ ] Testar em 375px (iPhone SE) — ajustar onde quebrar
+- [ ] Testar em 414px (iPhone Pro)
+- [ ] Testar em 768px (tablet portrait)
+- [ ] Testar em 1024px (tablet landscape / laptop pequeno)
+- [ ] Testar em 1440px e 1920px (desktop)
+- [ ] No mobile: garantir que há um CTA visível acima da dobra OU scroll suave pro form quando clica no CTA
+- [ ] Validar navegação por teclado (Tab, Shift+Tab, Enter) em toda a página
+- [ ] Adicionar `aria-label` em ícones decorativos (`aria-hidden="true"`)
+- [ ] Adicionar `aria-live="polite"` nos campos de erro do form
+- [ ] Validar contraste com WebAIM Contrast Checker (foco em Surface 1 vs text-mid)
+- [ ] Testar por 5 min com VoiceOver (Mac) ou NVDA (Windows)
+- [ ] Respeitar `prefers-reduced-motion` nas animações (desativar Framer Motion se preferência for reduzida)
+
+## M8 — Analytics e Tracking
+
+- [ ] Criar property GA4 (se ainda não existe)
+- [ ] Implementar `GoogleAnalytics` component no `layout.tsx` (Next 15 tem suporte nativo via next/third-parties)
+- [ ] Criar Pixel do Meta (se ainda não existe)
+- [ ] Implementar Meta Pixel no `layout.tsx` com strategy "afterInteractive"
+- [ ] Implementar `trackEvent()` helper em `src/lib/analytics.ts`
+- [ ] Disparar `page_view` automático (padrão)
+- [ ] Implementar scroll depth tracking (Intersection Observer em 50% e 90%)
+- [ ] Disparar `form_view` quando form entra no viewport
+- [ ] Disparar `form_start` no primeiro focus em campo
+- [ ] Disparar `form_submit_click` ao clicar botão
+- [ ] Disparar `form_success` e `Lead` após sucesso
+- [ ] Disparar `form_error` em caso de erro
+- [ ] Testar no GA4 DebugView que todos eventos disparam
+- [ ] Testar com Meta Pixel Helper (extensão Chrome) que eventos chegam no Facebook
+
+## M9 — QA e Pré-launch
+
+- [ ] Rodar Lighthouse mobile (Slow 4G, Low-tier) — target ≥90 em Performance
+- [ ] Rodar Lighthouse desktop — target ≥95 em Performance
+- [ ] Testar form em Chrome, Safari, Firefox (desktop) — últimas 2 versões
+- [ ] Testar form em iOS Safari (iPhone real ou BrowserStack)
+- [ ] Testar form em Chrome Android (Android real ou BrowserStack)
+- [ ] Testar com dados inválidos: email malformado, WhatsApp curto — deve mostrar erros claros
+- [ ] Verificar zero erros no console em nenhum navegador
+- [ ] Verificar zero warnings no console que afetem produção
+- [ ] Validar todas as imagens têm alt text
+- [ ] Revisão final da copy (nenhum erro de digitação, acentuação correta)
+- [ ] Validar metadata OG no opengraph.xyz
+- [ ] Validar schema.org no Google Rich Results Test
+- [ ] Validar mobile usability no Google Search Console (quando publicar)
+
+## M10 — Deploy e Smoke Test
+
+- [ ] Criar projeto Vercel e conectar ao repo GitHub
+- [ ] Configurar todas as env vars em Vercel (Production + Preview)
+- [ ] Deploy inicial em Preview (não production)
+- [ ] Smoke test no preview URL: submit funciona, lead chega na planilha
+- [ ] Deploy para Production
+- [ ] Configurar domínio customizado (se aplicável) + SSL
+- [ ] Submit de teste em produção — lead chega com dados corretos na planilha
+- [ ] Verificar no GA4 realtime que eventos estão chegando
+- [ ] Verificar no Meta Events Manager que `Lead` está chegando
+- [ ] Configurar redirect de `www` para non-www (ou vice-versa) no Vercel
+- [ ] Tag de release no Git: `v1.0.0`
+- [ ] Comunicar ao Jonathan que a página está pronta, enviar link e instruções de monitoramento
+
+---
+
+## Tarefas Pós-Launch (backlog — não bloqueiam go-live)
+
+- [ ] Configurar Meta CAPI (Conversions API) para tracking server-side (mais preciso que Pixel client-side)
+- [ ] A/B test headline alternativo (Optimizely, Growthbook, ou manual com URL params)
+- [ ] A/B test CTA button copy
+- [ ] Gravar vídeo curto do Jonathan (45-60s) para embed na `/obrigado`
+- [ ] Implementar sequência de reminder via WhatsApp API (T-24h, T-1h, T-5min)
+- [ ] Criar landing page de followup pós-webinário
+- [ ] Implementar UTM tracking detalhado por campanha Meta/Google
+- [ ] Configurar monitoramento de uptime (UptimeRobot ou Vercel Monitoring)
+- [ ] Implementar fallback de form para caso Sheets API caia (salvar em Supabase como backup)
+
+---
+
+## Notas e Decisões (registrar durante a execução)
+
+_Registrar aqui decisões importantes tomadas durante a produção que não estavam no PRD, com data._
+
+- [YYYY-MM-DD] — [Decisão]
+- [YYYY-MM-DD] — [Decisão]
+
+---
+
+## Bloqueadores Conhecidos
+
+_Itens que dependem de input externo antes de prosseguir:_
+
+- **Data do webinário** — bloqueia copy de reminder e schema.org
+- **URL do grupo de WhatsApp** — bloqueia M6 (pós-submit)
+- **GA4 ID e Meta Pixel ID** — bloqueiam M8 (analytics)
+- **Foto do Jonathan** — bloqueia M4 (assets)
