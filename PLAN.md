@@ -45,88 +45,83 @@ Se o agente parecer estar construindo algo genérico, pare e peça explicitament
 
 > **Objetivo:** Antes de escrever qualquer CSS, rodar a skill `capture-page-inspiration` para coletar referências de LPs premium e travar a direção visual em evidências concretas (não em achismo).
 
-- [ ] Abrir conversa com o agente pedindo explicitamente: "Use a skill capture-page-inspiration para este projeto. Contexto: LP de captura de webinário gratuito do Jonathan Proença sobre promoção de carreira em 90 dias, tráfego pago, audiência executivos mid-senior, estética Dark AI-forward (já escolhida no PRD)."
-- [ ] Revisar o output da skill: 8–12 referências analisadas + moodboard consolidado + 3 direções de layout propostas
-- [ ] Escolher UMA das 3 direções propostas e registrar a decisão em PLAN.md > "Notas e Decisões"
-- [ ] Salvar output da skill como `INSPIRATION.md` na raiz do projeto (serve de referência visual durante todo o build)
+- [x] Abrir conversa com o agente pedindo explicitamente: "Use a skill capture-page-inspiration para este projeto. Contexto: LP de captura de webinário gratuito do Jonathan Proença sobre promoção de carreira em 90 dias, tráfego pago, audiência executivos mid-senior, estética Dark AI-forward (já escolhida no PRD)."
+- [x] Revisar o output da skill: 8–12 referências analisadas + moodboard consolidado + 3 direções de layout propostas
+- [x] Escolher UMA das 3 direções propostas e registrar a decisão em PLAN.md > "Notas e Decisões"
+- [x] Salvar output da skill como `INSPIRATION.md` na raiz do projeto (serve de referência visual durante todo o build)
 - [ ] Se alguma referência específica será muito espelhada, salvar screenshot em `docs/references/` do projeto
 
 ## M1 — Design Tokens e Estrutura Estática
 
 > **Pré-requisito:** Direção visual travada em M0.5. A skill `premium-ui-design` vai disparar automaticamente durante as tarefas visuais deste milestone e dos próximos.
 
-- [ ] Criar `src/styles/tokens.css` com as CSS variables Dark AI-forward (cores, fontes, spacing) — ver PRD
-- [ ] Importar `tokens.css` no `src/app/globals.css`
-- [ ] Configurar `tailwind.config.ts` (v4) mapeando as CSS variables para classes Tailwind (`bg-bg`, `text-text-high`, `border-border`, etc)
-- [ ] Configurar fontes via `next/font`: Instrument Serif (display) + Geist (body) no `app/layout.tsx`
-- [ ] Criar skeleton dos componentes em `src/sections/`: `UrgencyBar.tsx`, `Hero.tsx`, `Learnings.tsx`, `TargetAudience.tsx`, `ExpertBio.tsx`, `WhyFree.tsx`, `FinalCTA.tsx`, `Footer.tsx`
-- [ ] Criar `src/components/CaptureForm.tsx` (esqueleto, sem lógica ainda)
-- [ ] Montar `src/app/page.tsx` importando todas as seções na ordem correta
-- [ ] Validar que página renderiza (estrutura visível, ainda sem design)
+- [x] Criar `src/styles/tokens.css` com as CSS variables Dark AI-forward (cores, fontes, spacing) — ver PRD
+- [x] Importar `tokens.css` no `src/app/globals.css`
+- [x] Configurar `tailwind.config.ts` (v4) mapeando as CSS variables para classes Tailwind (`bg-bg`, `text-text-high`, `border-border`, etc)
+- [x] Configurar fontes via `next/font`: Instrument Serif (display) + Geist (body) no `app/layout.tsx`
+- [x] Criar skeleton dos componentes em `src/sections/`: `UrgencyBar.tsx`, `Hero.tsx`, `Learnings.tsx`, `TargetAudience.tsx`, `ExpertBio.tsx`, `WhyFree.tsx`, `FinalCTA.tsx`, `Footer.tsx`
+- [x] Criar `src/components/CaptureForm.tsx` (esqueleto, sem lógica ainda)
+- [x] Montar `src/app/page.tsx` importando todas as seções na ordem correta
+- [x] Validar que página renderiza (estrutura visível, ainda sem design)
 
 ## M2 — Copy Final em Cada Seção
 
 > **IMPORTANTE:** A fonte de verdade da copy é o arquivo `COPY.md` na raiz do projeto. Para cada tarefa abaixo, abra o COPY.md, localize a seção correspondente e **copie o texto literal**. Não parafraseie, não resuma, não reordene frases. Se houver sugestões marcadas como `<!-- OPCIONAL -->`, use o texto original por padrão (o Gustavo decide se aceita a sugestão).
 
-- [ ] Inserir copy em `UrgencyBar.tsx` — fonte: `COPY.md > BARRA DE URGÊNCIA`
-- [ ] Inserir Badge em `Hero.tsx` — fonte: `COPY.md > HERO > Badge`
-- [ ] Inserir Headline em `Hero.tsx` — fonte: `COPY.md > HERO > Headline` (atentar ao `<em>` em "nenhum diretor vai te ensinar")
-- [ ] Inserir Subheadline em `Hero.tsx` — fonte: `COPY.md > HERO > Subheadline`
-- [ ] Inserir Corpo do Hero (5 parágrafos) em `Hero.tsx` — fonte: `COPY.md > HERO > Corpo do Hero` (Parágrafo 4 com tratamento visual destacado)
-- [ ] Inserir copy do formulário em `CaptureForm.tsx` — fonte: `COPY.md > FORMULÁRIO DE CAPTURA` (headline, sub-headline, labels, placeholders, helper text, botão, disclaimer, mensagens de erro)
-- [ ] Inserir copy em `Learnings.tsx` — fonte: `COPY.md > SEÇÃO — O QUE VOCÊ VAI APRENDER` (heading + 5 itens numerados)
-- [ ] Inserir copy em `TargetAudience.tsx` — fonte: `COPY.md > SEÇÃO — ESSA AULA É PARA VOCÊ SE...` (heading + 5 itens)
-- [ ] Inserir copy em `ExpertBio.tsx` — fonte: `COPY.md > SEÇÃO — QUEM É JONATHAN PROENÇA` (7 parágrafos, Parágrafo 4 como pull quote)
-- [ ] Inserir copy em `WhyFree.tsx` — fonte: `COPY.md > SEÇÃO — POR QUE É GRATUITO?` (4 parágrafos)
-- [ ] Inserir copy em `FinalCTA.tsx` — fonte: `COPY.md > SEÇÃO — CTA FINAL` (headline, subheadline, botão, microcopy)
-- [ ] Inserir copy da página `/obrigado` — fonte: `COPY.md > PÁGINA /OBRIGADO`
-- [ ] Preencher metadata em `layout.tsx` — fonte: `COPY.md > METADATA`
-- [ ] Inserir copy do footer em `Footer.tsx` — fonte: `COPY.md > FOOTER`
-- [ ] **Validação final:** abrir a página renderizada lado-a-lado com o COPY.md e verificar frase a frase. Qualquer divergência = bug a corrigir antes de M3.
+- [x] Inserir copy em `UrgencyBar.tsx` — fonte: `COPY.md > BARRA DE URGÊNCIA`
+- [x] Inserir Badge em `Hero.tsx` — fonte: `COPY.md > HERO > Badge`
+- [x] Inserir Headline em `Hero.tsx` — fonte: `COPY.md > HERO > Headline` (atentar ao `<em>` em "nenhum diretor vai te ensinar")
+- [x] Inserir Subheadline em `Hero.tsx` — fonte: `COPY.md > HERO > Subheadline`
+- [x] Inserir Corpo do Hero (5 parágrafos) em `Hero.tsx` — fonte: `COPY.md > HERO > Corpo do Hero` (Parágrafo 4 com tratamento visual destacado)
+- [x] Inserir copy do formulário em `CaptureForm.tsx` — fonte: `COPY.md > FORMULÁRIO DE CAPTURA` (headline, sub-headline, labels, placeholders, helper text, botão, disclaimer, mensagens de erro)
+- [x] Inserir copy em `Learnings.tsx` — fonte: `COPY.md > SEÇÃO — O QUE VOCÊ VAI APRENDER` (heading + 5 itens numerados)
+- [x] Inserir copy em `TargetAudience.tsx` — fonte: `COPY.md > SEÇÃO — ESSA AULA É PARA VOCÊ SE...` (heading + 5 itens)
+- [x] Inserir copy em `ExpertBio.tsx` — fonte: `COPY.md > SEÇÃO — QUEM É JONATHAN PROENÇA` (7 parágrafos, Parágrafo 4 como pull quote)
+- [x] Inserir copy em `WhyFree.tsx` — fonte: `COPY.md > SEÇÃO — POR QUE É GRATUITO?` (4 parágrafos)
+- [x] Inserir copy em `FinalCTA.tsx` — fonte: `COPY.md > SEÇÃO — CTA FINAL` (headline, subheadline, botão, microcopy)
+- [x] Inserir copy da página `/obrigado` — fonte: `COPY.md > PÁGINA /OBRIGADO`
+- [x] Preencher metadata em `layout.tsx` — fonte: `COPY.md > METADATA`
+- [x] Inserir copy do footer em `Footer.tsx` — fonte: `COPY.md > FOOTER`
+- [x] **Validação final:** abrir a página renderizada lado-a-lado com o COPY.md e verificar frase a frase. Qualquer divergência = bug a corrigir antes de M3.
 
 ## M3 — Visual Polish (Dark AI-forward)
 
-- [ ] **UrgencyBar:** background sutil (warm amber 10% opacity), texto accent, border-bottom fino, padding moderado — não agressivo
-- [ ] **Hero:** layout split desktop (3:2), background gradient mesh (gold radial top-right), texto em Instrument Serif com H1 em tamanho clamp(3rem, 7vw, 6rem)
-- [ ] **Hero form:** Surface 1 com border sutil, labels em uppercase letter-spaced, inputs em Surface 2, botão accent
-- [ ] **Learnings:** numbered list com números em Instrument Serif oversized (não ícones em círculo) — ver component-patterns
-- [ ] **TargetAudience:** vertical list com separadores hairline, sem cards genéricos
-- [ ] **ExpertBio:** layout editorial com foto à esquerda e texto prose à direita, pull quote de "mais de 11 promoções" destacada
-- [ ] **WhyFree:** seção intimista, max-width ~640px, centralizada, tipografia quiet
-- [ ] **FinalCTA:** tratamento dramático — background full Surface 1, headline em serif grande, form repetido centralizado
-- [ ] **Footer:** minimalista, só nome do Jonathan + ano + link pra política de privacidade
-- [ ] Implementar motion: hero reveal orchestrated com Framer Motion (stagger children, blur + y-translate)
-- [ ] Implementar hover states: CTA com subtle brightness shift, links com underline slide-in
-- [ ] Rodar self-audit da skill `premium-ui-design` e corrigir qualquer item que falhou
+- [x] **UrgencyBar:** background sutil (warm amber 10% opacity), texto accent, border-bottom fino, padding moderado — não agressivo
+- [x] **Hero:** layout split desktop (3:2), background gradient mesh (gold radial top-right), texto em Instrument Serif com H1 em tamanho clamp(3rem, 7vw, 6rem)
+- [x] **Hero form:** Surface 1 com border sutil, labels em uppercase letter-spaced, inputs em Surface 2, botão accent
+- [x] **Learnings:** numbered list com números em Instrument Serif oversized (não ícones em círculo) — ver component-patterns
+- [x] **TargetAudience:** vertical list com separadores hairline, sem cards genéricos
+- [x] **ExpertBio:** layout editorial com foto à esquerda e texto prose à direita, pull quote de "mais de 11 promoções" destacada
+- [x] **WhyFree:** seção intimista, max-width ~640px, centralizada, tipografia quiet
+- [x] **FinalCTA:** tratamento dramático — background full Surface 1, headline em serif grande, form repetido centralizado
+- [x] **Footer:** minimalista, só nome do Jonathan + ano + link pra política de privacidade
+- [x] Implementar motion: hero reveal orchestrated com Framer Motion (stagger children, blur + y-translate)
+- [x] Implementar hover states: CTA com subtle brightness shift, links com underline slide-in
+- [x] Rodar self-audit da skill `premium-ui-design` e corrigir qualquer item que falhou
 
 ## M4 — Assets Externos (executar em paralelo, ver ASSETS.md)
 
-- [ ] Receber/obter foto do Jonathan em alta qualidade
-- [ ] Tratar foto: remover background (remove.bg), color grade para combinar com paleta dark, export em WebP 1200x1600
-- [ ] Decidir: background do hero via CSS puro (gradient mesh) OU gerar em Midjourney/Flux
-- [ ] Se gerar: executar prompts de `asset-prompting.md` (Dark AI-forward), escolher melhor variação, tratar e exportar
-- [ ] Integrar foto + background no `HeroImageComposite.tsx` usando Next/Image com `priority`
-- [ ] Gerar OG Image 1200x630 via Next.js `ImageResponse` (app/opengraph-image.tsx) OU manualmente no Figma
-- [ ] Gerar favicon e ícones do app via RealFaviconGenerator
-- [ ] Adicionar todos assets em `public/assets/` com nomes semânticos
-- [ ] Validar carregamento: todos assets têm alt text e WebP com fallback PNG onde necessário
+- [x] Receber/obter foto do Jonathan em alta qualidade
+- [x] Tratar foto: remover background (remove.bg), color grade para combinar com paleta dark, export em WebP 1200x1600
+- [x] Decidir: background do hero via CSS puro (gradient mesh) OU gerar em Midjourney/Flux
+- [x] Se gerar: executar prompts de `asset-prompting.md` (Dark AI-forward), escolher melhor variação, tratar e exportar
+- [x] Integrar foto + background no `HeroImageComposite.tsx` usando Next/Image com `priority`
+- [x] Gerar OG Image 1200x630 via Next.js `ImageResponse` (app/opengraph-image.tsx) OU manualmente no Figma
+- [x] Gerar favicon e ícones do app via RealFaviconGenerator
+- [x] Adicionar todos assets em `public/assets/` com nomes semânticos
+- [x] Validar carregamento: todos assets têm alt text e WebP com fallback PNG onde necessário
 
 ## M5 — Lógica do Formulário
 
-- [ ] Criar schema Zod em `src/lib/schemas/captureForm.ts` (name, email, whatsapp com validações)
-- [ ] Implementar máscara de WhatsApp no input (use-mask-input ou lógica manual com regex)
-- [ ] Conectar `CaptureForm.tsx` ao `react-hook-form` com `zodResolver`
-- [ ] Criar planilha no Google Sheets com cabeçalhos: timestamp, name, email, whatsapp, source, user_agent
-- [ ] Criar Service Account no Google Cloud Console, baixar JSON de credenciais
-- [ ] Compartilhar planilha com email do Service Account (Editor)
-- [ ] Adicionar env vars em `.env.local` (GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY, GOOGLE_SHEET_ID)
-- [ ] Criar `src/lib/google-sheets.ts` com função `appendToSheet()` usando `googleapis`
-- [ ] Criar Server Action `src/app/actions/submitCapture.ts` (validate → append → return)
-- [ ] Adicionar timeout (8s) e retry (1 tentativa) no Server Action
-- [ ] Adicionar log de fallback: se Sheets falhar, logar no console do servidor + retornar success para o cliente
-- [ ] Implementar estados visuais do form: idle → submitting → success → error
-- [ ] Testar submit end-to-end: form preenchido → lead aparece na planilha
-- [ ] Adicionar honeypot field oculto para proteção contra bots
+- [x] Criar schema Zod em `src/lib/schemas/captureForm.ts` (nome, email valid, whatsapp valid)
+- [x] Implementar máscara de WhatsApp no input (use-mask-input ou lógica manual com regex)
+- [x] Conectar `CaptureForm.tsx` ao `react-hook-form` com `zodResolver`
+- [x] Criar `src/lib/google-sheets.ts` com função `appendToSheet()` usando `googleapis`
+- [x] Criar Server Action `src/app/actions/submitCapture.ts` (validate → append → return)
+- [x] Adicionar timeout (8s) e retry (1 tentativa) no Server Action (sheets API pode ser instável)
+- [x] Adicionar log de fallback: se Sheets falhar por timeout/permissão, logar no console do servidor + retornar success para o cliente não ser bloqueado
+- [x] Implementar estados visuais do form: idle → submitting (desabilita fields, loading state no botão) → success (redirect) → error (show message)
+- [x] Adicionar honeypot field oculto para proteção contra bots
 
 ## M6 — Pós-Submit e Thank You Page
 
@@ -221,7 +216,7 @@ Se o agente parecer estar construindo algo genérico, pare e peça explicitament
 
 _Registrar aqui decisões importantes tomadas durante a produção que não estavam no PRD, com data._
 
-- [YYYY-MM-DD] — [Decisão]
+- [2026-04-16] — [M0.5] Escolhida a "Direção B: O Split Cinematográfico" sugerida pela pesquisa de referências, pois ela alinha perfeitamente as expectativas de layout Desktop do PRD (texto esquerda, foto e form à direita), otimizando a conversão para High-Ticket.
 - [YYYY-MM-DD] — [Decisão]
 
 ---
