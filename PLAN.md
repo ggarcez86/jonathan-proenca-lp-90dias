@@ -143,12 +143,22 @@ Se o agente parecer estar construindo algo genérico, pare e peça explicitament
 - [x] Implementar filtros simples sugeridos (Range de datas, métricas geográficas/fontes básicas se capturáveis via headers da requisição `x-forwarded-for`).
 - [x] Nota: _Rastreamento complexo de Meta/Google Ads transferido para o GTM proprietário._
 
+## M9 — Ajustes Finais Pré-Lançamento (Tarefas de Amanhã)
+
+- [ ] Automação n8n: Configurar a Server Action (`submitCapture.ts`) para engatilhar um endpoint Webhook externo (N8N)
+- [ ] Vturb Embed: Inserir Iframe com o vídeo de conteúdo na `/aula` após upload fornecido pelo expert
+- [ ] Refinar Copy Pós-Pitch: Ajustar os textos persuasivos da seção inferior que só aparece durante/após a venda
+- [ ] Link de Checkout: Habilitar o href de venda plugar na env var `NEXT_PUBLIC_SALES_URL` que aparece após o pitch
+- [ ] Timer de Venda: Ajustar variável pendente de configuração simulando a delay exato do pitch na Vturb (`NEXT_PUBLIC_CTA_APPEAR_SECONDS`)
+- [ ] Dashboard Avançado: Implementar interface robusta com gráficos de linha/barra (ex: Chart.js/Recharts), métricas extras e exportação direta de Leads para `.xlsx` / `.csv`
+- [ ] URL do Grupo VIP: Configurar o href funcional do botão de WhatsApp na página de Obrigado
+- [ ] Refinamento do Favicon: Melhorar ícone da aba da página (ícone Vercel já removido, revisar qualidade da master logo `icon.jpg`)
+
 ## M10 — Deploy da Aplicação Final
 
-- [ ] Configurar projeto e domínios na Vercel.
-- [ ] Injetar Variáveis de Ambiente de DB e Auth na Vercel.
-- [ ] Validar rotas de Server Actions em ambiente de produção (CORS, cache headers).
-- [ ] Smoke test do preenchimento e log do IP no Analytics.
+- [ ] Configurar projeto e domínios premium na Vercel
+- [ ] Injetar Variáveis de Ambiente Críticas de Produção (DB, Auth, Webhooks)
+- [ ] Smoke test do preenchimento completo: Webhook disparado, redirect, logs e pixel.
 
 ---
 
