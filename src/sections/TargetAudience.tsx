@@ -25,24 +25,24 @@ export default function TargetAudience() {
   };
 
   return (
-    <section className="py-24 lg:py-40 px-6 max-w-[1300px] mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+    <section className="py-12 sm:py-24 lg:py-40 px-6 max-w-[1300px] mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-16 lg:gap-24 items-start">
         
         {/* Left Side: Sticky Editorial Headline */}
         <div className="lg:col-span-5 relative">
           <div className="sticky top-32">
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-[4.5rem] text-text-high tracking-tight leading-[1] mb-12">
+            <h2 className="font-display text-[2rem] sm:text-5xl lg:text-[4.5rem] text-text-high tracking-tight leading-[1] mb-8 sm:mb-12">
               Essa aula é <br className="hidden lg:block"/><span className="text-accent italic font-light">para você se...</span>
             </h2>
             
-            <div className="h-[1px] w-12 bg-accent/40 mb-12" />
+            <div className="h-[1px] w-12 bg-accent/40 mb-8 sm:mb-12" />
             
             {/* Split paragraph and larger typography to fill vertical space organically */}
-            <div className="flex flex-col gap-8 w-full lg:max-w-[85%] pr-4 lg:pr-8">
-              <p className="text-text-high/90 font-body text-xl lg:text-2xl leading-relaxed font-light">
+            <div className="flex flex-col gap-6 sm:gap-8 w-full lg:max-w-[85%] pr-0 lg:pr-8">
+              <p className="text-text-high/90 font-body text-[1.1rem] sm:text-xl lg:text-2xl leading-relaxed font-light">
                 Nenhuma técnica genérica vai te salvar se a base estiver errada. 
               </p>
-              <p className="text-text-mid font-body text-base lg:text-lg leading-relaxed">
+              <p className="text-text-mid font-body text-[0.95rem] sm:text-base lg:text-lg leading-relaxed">
                 Se você sentiu o peso de <strong className="text-text-high font-medium">pelo menos um</strong> desses cenários, o modelo mental que você usa para crescer está sabotando a sua carreira.
               </p>
             </div>
@@ -51,7 +51,7 @@ export default function TargetAudience() {
 
         {/* Right Side: Staggered Premium Glass List */}
         <motion.div 
-          className="lg:col-span-7 flex flex-col gap-5 sm:gap-6"
+          className="lg:col-span-7 flex flex-col gap-4 sm:gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -61,9 +61,9 @@ export default function TargetAudience() {
              <motion.div 
                key={i}
                variants={itemVariants}
-               className="group relative p-8 sm:p-10 rounded-3xl bg-[#141416]/70 backdrop-blur-sm border border-white/10 hover:border-accent/40 hover:bg-[#1A1A1D] transition-all duration-500 overflow-hidden"
+               className="group relative p-6 sm:p-10 rounded-[1.5rem] sm:rounded-3xl bg-[#141416]/70 backdrop-blur-sm border border-white/10 hover:border-accent/40 hover:bg-[#1A1A1D] transition-all duration-500 overflow-hidden"
              >
-               <div className="flex gap-6 sm:gap-8 items-start">
+               <div className="flex gap-4 sm:gap-8 items-start">
                  
                  {/* Diamond Abstract High-Ticket Icon (higher base opacity for visibility) */}
                  <div className="mt-1.5 flex-shrink-0 text-accent opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
@@ -73,7 +73,7 @@ export default function TargetAudience() {
                  </div>
                  
                  {/* Higher contrast base text (text-text-high/80 instead of deep mid) */}
-                 <p className="text-lg sm:text-[1.3rem] text-text-high/80 font-body font-light leading-relaxed group-hover:text-text-high transition-colors duration-500">
+                 <p className="text-[1rem] sm:text-xl lg:text-[1.3rem] text-text-high/80 font-body font-light leading-relaxed sm:leading-relaxed group-hover:text-text-high transition-colors duration-500">
                    {item}
                  </p>
                  
