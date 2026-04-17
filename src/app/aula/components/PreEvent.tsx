@@ -42,7 +42,8 @@ export default function PreEvent() {
   }, []);
 
   return (
-    <div className="max-w-[1200px] mx-auto px-6 py-12 lg:py-20 flex flex-col items-center">
+    <>
+      <div className="max-w-[1200px] mx-auto px-6 py-12 lg:py-20 flex flex-col items-center">
       
       {/* BADGE ANIMADO */}
       <motion.div 
@@ -110,19 +111,20 @@ export default function PreEvent() {
         </div>
       </motion.div>
 
-      {/* FOOTER BIO (Importado Oficial) */}
+      </div>
+
+      {/* FOOTER BIO (Importado Oficial e Full Width Nativo) */}
       <motion.div 
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
-        className="w-[100vw] relative left-1/2 -translate-x-1/2 mt-16 pt-16 border-t border-white/5"
+        className="w-full relative border-t border-white/5"
       >
-        <div className="absolute top-8 left-0 w-full text-center z-10 px-6">
-           <p className="text-xs text-accent mt-3 uppercase tracking-widest font-bold">
+        <div className="absolute top-6 lg:top-8 left-0 w-full text-center z-10 px-6">
+           <p className="text-[10px] sm:text-xs text-accent uppercase tracking-[0.2em] font-bold">
             Dica: Pegue papel e caneta ao assistir. Quem anota sai 10x na frente.
           </p>
         </div>
         <ExpertBio />
       </motion.div>
-
-    </div>
+    </>
   );
 }
