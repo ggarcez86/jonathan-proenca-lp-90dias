@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
-import ExpertProfile from "@/sections/ExpertProfile";
+import ExpertBio from "@/sections/ExpertBio";
 
 export default function PreEvent() {
   const [timeLeft, setTimeLeft] = useState<string>("00:00:00");
@@ -120,7 +120,7 @@ export default function PreEvent() {
             Dica: Pegue papel e caneta ao assistir. Quem anota sai 10x na frente.
           </p>
         </div>
-        <ExpertProfile />
+        <ExpertBio />
       </motion.div>
 
     </div>
