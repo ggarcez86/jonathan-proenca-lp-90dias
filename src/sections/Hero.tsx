@@ -26,7 +26,7 @@ const stagger = {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[100dvh] py-6 sm:py-12 lg:py-0 flex items-center bg-bg overflow-hidden border-b border-border">
+    <section className="relative min-h-[100dvh] pt-2 pb-6 sm:py-12 lg:py-0 flex items-center bg-bg overflow-hidden border-b border-border">
       
       {/* BACKGROUND EFFECTS */}
       {/* Spherical Glows */}
