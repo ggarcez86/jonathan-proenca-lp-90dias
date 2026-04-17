@@ -85,7 +85,7 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               variants={stagger}
-              className="flex flex-col lg:-mt-24"
+              className="flex flex-col lg:-mt-12"
             >
               {/* Badge */}
               <motion.div variants={fadeUpBlur} className="mb-2 sm:mb-3">
