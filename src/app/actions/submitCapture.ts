@@ -7,6 +7,7 @@ import { headers } from "next/headers";
 // Função auxiliar de disparo para reaproveitamento
 async function dispatchWebhook(payload: any) {
   const webhookUrl = process.env.N8N_WEBHOOK_URL;
+  console.log(">>> [DEBUG] Disparando Webhook para a URL:", webhookUrl);
   if (!webhookUrl) return;
 
   try {
