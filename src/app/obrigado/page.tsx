@@ -15,7 +15,6 @@ export default function ObrigadoPage() {
         className="absolute inset-0 z-0 opacity-40" 
         quantity={100} 
         color="#C9A961" 
-        refresh 
       />
 
       <div className="absolute top-0 right-[-10vw] w-[50vw] h-[50vw] rounded-full bg-gradient-radial from-accent/10 to-transparent blur-3xl mix-blend-screen pointer-events-none" />
