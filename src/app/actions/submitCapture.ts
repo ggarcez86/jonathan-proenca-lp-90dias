@@ -47,17 +47,24 @@ export async function submitCapture(formData: any) {
       throw error;
     }
 
-    // 4.5. Disparo do Webhook N8N (Non-blocking catch para não quebrar a UI do cliente em caso de lentidão do N8N)
+    // 4.5. Disparo do Webhook N8N (Aguardando resposta com Timeout de 4s para Vercel não matar o processo)
     const webhookUrl = process.env.N8N_WEBHOOK_URL;
     if (webhookUrl) {
-      // Disparo Fire-and-Forget
-      fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      }).catch(err => {
-        console.error("[Lead Webhook ERROR] Falha ao enviar para o N8N:", err);
-      });
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+        
+        await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+      } catch (err) {
+        console.error("[Lead Webhook ERROR] Falha ou lentidão ao enviar para o N8N:", err);
+      }
     }
 
   } catch (error) {
