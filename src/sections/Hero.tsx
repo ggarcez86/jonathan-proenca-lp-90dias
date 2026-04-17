@@ -82,10 +82,10 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               variants={stagger}
-              className="space-y-4"
+              className="flex flex-col"
             >
               {/* Badge */}
-              <motion.div variants={fadeUpBlur}>
+              <motion.div variants={fadeUpBlur} className="mb-6">
                 <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-surface-2/60 backdrop-blur-md text-accent text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] rounded-full border border-accent/20">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent text-accent opacity-75"></span>
@@ -96,19 +96,19 @@ export default function Hero() {
               </motion.div>
               
               {/* Headline */}
-              <motion.h1 variants={fadeUpBlur} className="font-display text-[3rem] sm:text-[4rem] xl:text-[4.5rem] leading-[0.9] tracking-tight text-text-high drop-shadow-2xl">
+              <motion.h1 variants={fadeUpBlur} className="font-display text-[3rem] sm:text-[4rem] xl:text-[4.5rem] leading-[0.9] tracking-tight text-text-high drop-shadow-2xl mb-6">
                 O método que <span className="block mt-1"><em className="italic text-accent font-light">nenhum diretor vai te ensinar</em></span> para ser promovido em 90 dias
               </motion.h1>
               
               {/* Subheadline + Copy */}
-              <motion.p variants={fadeUpBlur} className="text-[1.1rem] sm:text-[1.2rem] xl:text-[1.35rem] text-text-mid font-body leading-[1.6] font-light mb-6 w-full">
+              <motion.p variants={fadeUpBlur} className="text-[1.1rem] sm:text-[1.2rem] xl:text-[1.35rem] text-text-mid font-body leading-[1.6] font-light mb-8 w-full">
                 Mesmo que você já tenha tentado de tudo.<br/>
                 Mesmo que seu gestor nunca te dê feedback claro.<br/>
                 Não é azar, é porque ninguém te ensinou as regras do jogo.
               </motion.p>
               
               {/* max-w-full deixa a tabela preencher o container esquerdo confortavelmente sem espremer */}
-              <motion.div variants={fadeUpBlur} className="w-full relative z-20 mt-10 lg:mt-14">
+              <motion.div variants={fadeUpBlur} className="w-full relative z-20 mt-2">
                 <CaptureForm variant="hero" />
               </motion.div>
 
