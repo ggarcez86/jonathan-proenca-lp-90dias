@@ -85,7 +85,7 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               variants={stagger}
-              className="flex flex-col lg:-mt-16"
+              className="flex flex-col lg:-mt-24"
             >
               {/* Badge */}
               <motion.div variants={fadeUpBlur} className="mb-2 sm:mb-3">
@@ -111,7 +111,7 @@ export default function Hero() {
               </motion.p>
               
               {/* max-w-full deixa a tabela preencher o container esquerdo confortavelmente sem espremer */}
-              <motion.div variants={fadeUpBlur} className="w-full relative z-20 mt-0">
+              <motion.div variants={fadeUpBlur} className="w-full relative z-20 mt-2 lg:mt-8">
                 <CaptureForm variant="hero" />
               </motion.div>
 
