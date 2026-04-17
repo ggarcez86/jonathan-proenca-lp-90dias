@@ -12,6 +12,15 @@ export function useWebinarState() {
     setMounted(true);
     
     const checkState = () => {
+      // 1. Feature de Debug/Preview: Se tiver ?preview=na url, sobrepõe a lógica de tempo
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const forcedPreview = urlParams.get('preview');
+        if (forcedPreview === 'pre' || forcedPreview === 'live' || forcedPreview === 'post') {
+          setState(forcedPreview as WebinarState);
+          return;
+        }
+      }
       const now = new Date();
       // Datas injetadas via env variables na Vercel (com fallback rígido para evitar falha se o Env não for upado)
       const startStr = process.env.NEXT_PUBLIC_WEBINAR_START || "2026-05-14T21:00:00-03:00";
