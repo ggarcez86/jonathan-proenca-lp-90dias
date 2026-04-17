@@ -43,9 +43,9 @@ export default function CaptureForm({ variant = "hero" }: { variant?: "hero" | "
   };
 
   // Glassmorphism wrapper base
-  const formWrapperClasses = 'bg-[#0A0A0B]/40 backdrop-blur-xl p-6 sm:p-8 lg:p-10 border border-white/5 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative overflow-hidden group';
+  const formWrapperClasses = 'bg-[#0A0A0B]/40 backdrop-blur-xl p-4 sm:p-6 lg:p-10 border border-white/5 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative overflow-hidden group';
 
-  const inputClasses = 'w-full bg-black/40 border border-white/10 px-4 py-3 sm:py-4 text-text-high text-[15px] sm:text-base rounded-xl focus:outline-none focus:border-accent focus:bg-black/60 focus:ring-1 focus:ring-accent transition-all font-body placeholder:text-text-low backdrop-blur-md';
+  const inputClasses = 'w-full bg-black/40 border border-white/10 px-3 sm:px-4 py-2.5 sm:py-3 md:py-4 text-text-high text-[14px] sm:text-[15px] md:text-base rounded-lg sm:rounded-xl focus:outline-none focus:border-accent focus:bg-black/60 focus:ring-1 focus:ring-accent transition-all font-body placeholder:text-text-low backdrop-blur-md';
 
   return (
     <motion.form 
@@ -69,9 +69,9 @@ export default function CaptureForm({ variant = "hero" }: { variant?: "hero" | "
 
       {/* Inputs elevados no eixo Z para ficarem acima da luz */}
       <div className="relative z-30">
-        <div className="text-center mb-5 sm:mb-8">
-          <h3 className="text-xl sm:text-2xl lg:text-[1.65rem] font-display tracking-wide text-text-high drop-shadow-md">Garanta seu lugar agora</h3>
-          <p className="text-[12px] sm:text-[13px] text-text-mid font-body mt-1 sm:mt-2">(As vagas fecham quando lotar)</p>
+        <div className="text-center mb-4 sm:mb-8">
+          <h3 className="text-[1.1rem] sm:text-2xl lg:text-[1.65rem] font-display tracking-wide text-text-high drop-shadow-md">Garanta seu lugar agora</h3>
+          <p className="text-[11px] sm:text-[12px] md:text-[13px] text-text-mid font-body mt-0.5 sm:mt-2">(As vagas fecham quando lotar)</p>
         </div>
 
         {serverError && (
@@ -82,7 +82,7 @@ export default function CaptureForm({ variant = "hero" }: { variant?: "hero" | "
 
         <input type="text" {...register("honey")} className="hidden" tabIndex={-1} autoComplete="off" />
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <div>
             <label className="block text-[11px] sm:text-xs font-bold text-text-mid uppercase tracking-[0.2em] mb-2.5 font-body ml-1">Nome completo</label>
             <input 
@@ -107,7 +107,7 @@ export default function CaptureForm({ variant = "hero" }: { variant?: "hero" | "
             {errors.email ? (
                <p className="text-[12px] text-red-400 mt-1.5 ml-1">{errors.email.message}</p>
             ) : (
-               <p className="text-[11px] text-text-low mt-1.5 font-body ml-1">Para enviar o link corporativo da aula.</p>
+               <p className="hidden sm:block text-[11px] text-text-low mt-1.5 font-body ml-1">Para enviar o link corporativo da aula.</p>
             )}
           </div>
 
@@ -127,7 +127,7 @@ export default function CaptureForm({ variant = "hero" }: { variant?: "hero" | "
             {errors.whatsapp ? (
                <p className="text-[12px] text-red-400 mt-1.5 ml-1">{errors.whatsapp.message}</p>
             ) : (
-               <p className="text-[11px] text-text-low mt-1.5 font-body ml-1">Para o link de acesso exclusivo 1h antes.</p>
+               <p className="hidden sm:block text-[11px] text-text-low mt-1.5 font-body ml-1">Para o link de acesso exclusivo 1h antes.</p>
             )}
           </div>
         </div>
@@ -135,13 +135,13 @@ export default function CaptureForm({ variant = "hero" }: { variant?: "hero" | "
         <button 
           type="submit" 
           disabled={isSubmitting}
-          className="w-full mt-6 sm:mt-8 bg-gradient-to-r from-accent to-accent/90 text-[#0A0A0B] py-3.5 sm:py-4 rounded-xl text-[0.85rem] font-bold uppercase tracking-[0.2em] hover:brightness-110 shadow-[0_0_20px_rgba(201,169,97,0.3)] hover:shadow-[0_0_30px_rgba(201,169,97,0.5)] active:scale-[0.98] transition-all duration-300 font-body flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
+          className="w-full mt-5 sm:mt-8 bg-gradient-to-r from-accent to-accent/90 text-[#0A0A0B] py-3 sm:py-3.5 md:py-4 rounded-xl text-[0.8rem] sm:text-[0.85rem] font-bold uppercase tracking-[0.2em] hover:brightness-110 shadow-[0_0_15px_rgba(201,169,97,0.3)] sm:shadow-[0_0_20px_rgba(201,169,97,0.3)] hover:shadow-[0_0_30px_rgba(201,169,97,0.5)] active:scale-[0.98] transition-all duration-300 font-body flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          <span>{isSubmitting ? "Processando..." : "Quero minha vaga"}</span>
+          <span>{isSubmitting ? "Enviando..." : "Quero minha vaga"}</span>
           {!isSubmitting && <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>}
         </button>
 
-        <p className="text-[10px] sm:text-[11px] text-center text-text-low mt-4 sm:mt-6 font-body uppercase tracking-wider font-semibold opacity-70">
+        <p className="text-[9px] sm:text-[10px] md:text-[11px] text-center text-text-low mt-3 sm:mt-4 md:mt-6 font-body uppercase tracking-wider font-semibold opacity-70">
           100% gratuito &middot; Sem cartão
         </p>
       </div>
