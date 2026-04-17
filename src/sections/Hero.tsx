@@ -51,7 +51,7 @@ export default function Hero() {
       {/* JONATHAN IMAGE SIDE (Direita Estrita) */}
       <div 
         className="absolute inset-y-0 right-0 w-full lg:w-[60%] overflow-hidden z-0 pointer-events-none"
-        style={{ MaskImage: "linear-gradient(to right, transparent 0%, black 25%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 25%)" }}
+        style={{ maskImage: "linear-gradient(to right, transparent 0%, black 25%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 25%)" }}
       >
         <motion.div
           initial={{ opacity: 0, filter: "blur(10px)" }}
