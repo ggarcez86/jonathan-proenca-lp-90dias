@@ -14,7 +14,6 @@ export default function ObrigadoPage() {
       <Particles 
         className="absolute inset-0 z-0 opacity-40" 
         quantity={100} 
-        ease={80} 
         color="#C9A961" 
         refresh 
       />
