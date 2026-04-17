@@ -39,7 +39,7 @@ export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible
             Método Próxima Cadeira
           </h2>
 
-          <p className="text-text-mid font-body text-base max-w-xl mx-auto mb-8 relative z-10">
+          <p className="w-full max-w-[90%] sm:max-w-xl mx-auto text-text-mid font-body text-[0.95rem] sm:text-base mb-8 relative z-10 leading-relaxed">
             {alwaysVisible 
               ? "Se você quer aplicar esse método com meu acompanhamento de perto, as inscrições estão oficialmente abertas." 
               : "Condição especial exclusiva para quem está ao vivo. Válida apenas durante esta sessão."}
