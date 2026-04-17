@@ -4,10 +4,31 @@ import { captureFormSchema } from "@/lib/schemas/captureForm";
 import { supabaseAdmin } from "@/lib/supabase";
 import { headers } from "next/headers";
 
+// Função auxiliar de disparo para reaproveitamento
+async function dispatchWebhook(payload: any) {
+  const webhookUrl = process.env.N8N_WEBHOOK_URL;
+  if (!webhookUrl) return;
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    
+    await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+  } catch (err) {
+    console.error("[Lead Webhook ERROR] Falha ou lentidão ao enviar para o N8N:", err);
+  }
+}
+
 export async function submitCapture(formData: any) {
   // 1. Honeypot check (Se preenchido, é bot)
   if (formData.honey) {
-    // Retornamos sucesso fake para despistar bot automatizado
     return { success: true }; 
   }
 
@@ -20,7 +41,6 @@ export async function submitCapture(formData: any) {
 
   try {
     // 3. Preparando Insert Payload
-    // Formatamos o Telefone para tirar máscara caso não tenha sido tirado (apenas números)
     const cleanWhatsapp = result.data.whatsapp.replace(/\D/g, "");
 
     const payload = {
@@ -35,49 +55,26 @@ export async function submitCapture(formData: any) {
       .insert([payload]);
 
     if (error) {
-      // Supabase código 23505 = Unique Violation (email já cadastrado)
       if (error.code === '23505') {
         console.log(`[Lead INFO] O email ${payload.email} tentou se cadastrar novamente. Bypass aplicado.`);
-        // Consideramos sucesso para liberar o acesso da pessoa que já é lead.
+        // Chamada do webhook para garantir que leads repetidos também entrem em contato novamente!
+        await dispatchWebhook(payload);
         return { success: true };
       }
       
       console.error("[Lead ERROR] Falha ao injetar no Supabase:", error);
-      // Se for outro erro, lançamos pra tratar abaixo
       throw error;
     }
 
-    // 4.5. Disparo do Webhook N8N (Aguardando resposta com Timeout de 4s para Vercel não matar o processo)
-    const webhookUrl = process.env.N8N_WEBHOOK_URL;
-    if (webhookUrl) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 4000);
-        
-        await fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-          signal: controller.signal
-        });
-        
-        clearTimeout(timeoutId);
-      } catch (err) {
-        console.error("[Lead Webhook ERROR] Falha ou lentidão ao enviar para o N8N:", err);
-      }
-    }
+    // 4.5. Disparo do Webhook N8N (Aguardando resposta com Timeout)
+    await dispatchWebhook(payload);
 
   } catch (error) {
-    // 5. Fallback & Graceful Degradation
-    // Per PRD: "Sempre direcionar para success mesmo se falhar"
     console.error("FALLBACK LOG - Lead recebido mas backend falhou gravemente", {
       data: result.data,
       error
     });
-    // Se estivesse em Produção Rigorosa, retornaríamos error, 
-    // mas em marketing, preferimos que ele chegue ao grupo VIP do Whatsapp se o BD cair.
   }
 
-  // Se tudo deu certo ou falhou silenciosamente no catch:
   return { success: true };
 }
