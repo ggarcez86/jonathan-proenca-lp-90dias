@@ -80,7 +80,7 @@ export default function PreEvent() {
         </div>
 
         <p className="text-text-mid text-sm uppercase tracking-widest font-bold mb-2 z-10">A aula começa em:</p>
-        <div className="font-mono text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-widest z-10 tabular-nums">
+        <div className="font-mono text-[1.8rem] sm:text-5xl md:text-7xl font-bold text-white tracking-widest z-10 tabular-nums whitespace-nowrap">
           {timeLeft}
         </div>
       </motion.div>
