@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
-import Image from "next/image";
+import ExpertProfile from "@/sections/ExpertProfile";
 
 export default function PreEvent() {
   const [timeLeft, setTimeLeft] = useState<string>("00:00:00");
@@ -24,13 +24,18 @@ export default function PreEvent() {
         return;
       }
 
+      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
       const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const s = Math.floor((distance % (1000 * 60)) / 1000);
 
-      setTimeLeft(
-        `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
-      );
+      if (d > 0) {
+        setTimeLeft(`${d}d ${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`);
+      } else {
+        setTimeLeft(
+          `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
+        );
+      }
     }, 1000);
 
     return () => clearInterval(interval);
@@ -105,22 +110,17 @@ export default function PreEvent() {
         </div>
       </motion.div>
 
-      {/* FOOTER BIO */}
+      {/* FOOTER BIO (Importado Oficial) */}
       <motion.div 
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
-        className="w-full max-w-4xl mt-16 pt-16 border-t border-white/5 flex flex-col md:flex-row items-center gap-6"
+        className="w-[100vw] relative left-1/2 -translate-x-1/2 mt-16 pt-16 border-t border-white/5"
       >
-        <div className="w-16 h-16 rounded-full bg-surface-2 overflow-hidden relative shrink-0">
-          <Image src="/assets/jonathan-hero.webp" alt="Jonathan Proença" fill className="object-cover" unoptimized/>
-        </div>
-        <div className="text-center md:text-left">
-          <p className="text-sm text-text-high leading-relaxed px-4 md:px-0 font-light">
-            <strong className="text-white font-medium">Jonathan Proença</strong> · Líder de IA em multinacional no Texas. Ex-técnico de fábrica com mais de 11 promoções e transferências internacionais para 4 países. Ainda na ativa.
-          </p>
-          <p className="text-xs text-accent mt-3 uppercase tracking-widest font-bold">
-            Dica: Pegue papel e caneta. Quem anota sai 10x na frente.
+        <div className="absolute top-8 left-0 w-full text-center z-10 px-6">
+           <p className="text-xs text-accent mt-3 uppercase tracking-widest font-bold">
+            Dica: Pegue papel e caneta ao assistir. Quem anota sai 10x na frente.
           </p>
         </div>
+        <ExpertProfile />
       </motion.div>
 
     </div>
