@@ -13,10 +13,9 @@ export function useWebinarState() {
     
     const checkState = () => {
       const now = new Date();
-      // Datas injetadas via env variables na Vercel
-      // O Next.js congela o valor na build, mas como é NEXT_PUBLIC, funciona safe no cliente
-      const startStr = process.env.NEXT_PUBLIC_WEBINAR_START;
-      const endStr = process.env.NEXT_PUBLIC_WEBINAR_END;
+      // Datas injetadas via env variables na Vercel (com fallback rígido para evitar falha se o Env não for upado)
+      const startStr = process.env.NEXT_PUBLIC_WEBINAR_START || "2026-05-14T21:00:00-03:00";
+      const endStr = process.env.NEXT_PUBLIC_WEBINAR_END || "2026-05-14T23:00:00-03:00";
 
       if (!startStr || !endStr) {
         // Se as datas não estiverem configuradas, caímos por padrão no PRE (sala de espera)

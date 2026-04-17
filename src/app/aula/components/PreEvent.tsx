@@ -9,7 +9,7 @@ export default function PreEvent() {
   const [timeLeft, setTimeLeft] = useState<string>("00:00:00");
 
   useEffect(() => {
-    const startStr = process.env.NEXT_PUBLIC_WEBINAR_START;
+    const startStr = process.env.NEXT_PUBLIC_WEBINAR_START || "2026-05-14T21:00:00-03:00";
     if (!startStr) return;
 
     const target = new Date(startStr).getTime();
