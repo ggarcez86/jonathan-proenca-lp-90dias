@@ -9,6 +9,10 @@ import { submitCapture } from "@/app/actions/submitCapture";
 import { useRouter } from "next/navigation";
 import { BorderBeam } from "@/components/magicui/BorderBeam";
 
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+
 // Utility mask for WhatsApp
 const maskWhatsApp = (value: string) => {
   return value
@@ -17,6 +21,37 @@ const maskWhatsApp = (value: string) => {
     .replace(/(\d{2})(\d)/, "($1) $2")
     .replace(/(\d{5})(\d)/, "$1-$2");
 };
+
+/**
+ * Lê um cookie pelo nome.
+ * Retorna undefined se não existir.
+ */
+function getCookie(name: string): string | undefined {
+  if (typeof document === "undefined") return undefined;
+  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+  return match ? decodeURIComponent(match[2]) : undefined;
+}
+
+/**
+ * Dispara o evento Lead no Meta Pixel (browser-side).
+ * Usa o mesmo event_id que será enviado pro CAPI para deduplicação.
+ */
+function trackPixelLead(eventId: string, userData: { email: string; name: string; phone: string }) {
+  if (typeof window !== "undefined" && typeof (window as any).fbq === "function") {
+    (window as any).fbq("track", "Lead", {
+      content_name: "Workshop Inscrição",
+    }, {
+      eventID: eventId,
+    });
+    console.log("[Meta Pixel] ✅ Evento Lead disparado. eventID:", eventId);
+  } else {
+    console.warn("[Meta Pixel] ⚠️ fbq não disponível (bloqueador de ads?)");
+  }
+}
+
+// ─────────────────────────────────────────────
+// COMPONENT
+// ─────────────────────────────────────────────
 
 export default function CaptureForm({ variant = "hero" }: { variant?: "hero" | "final" }) {
   const router = useRouter();
@@ -33,7 +68,29 @@ export default function CaptureForm({ variant = "hero" }: { variant?: "hero" | "
 
   const onSubmit = async (data: any) => {
     setServerError("");
-    const result = await submitCapture(data);
+
+    // ─── DEDUPLICAÇÃO META: Gerar event_id único ───
+    const eventId = crypto.randomUUID();
+
+    // ─── Capturar cookies do Meta Pixel (não hashear!) ───
+    const fbp = getCookie("_fbp");
+    const fbc = getCookie("_fbc");
+
+    // ─── Disparar evento Lead no PIXEL (browser-side) ───
+    trackPixelLead(eventId, {
+      email: data.email,
+      name: data.name,
+      phone: data.whatsapp,
+    });
+
+    // ─── Enviar para Server Action (que dispara CAPI) ───
+    const result = await submitCapture({
+      ...data,
+      eventId,
+      fbp,
+      fbc,
+      eventSourceUrl: window.location.href,
+    });
     
     if (result.success) {
       router.push("/obrigado");

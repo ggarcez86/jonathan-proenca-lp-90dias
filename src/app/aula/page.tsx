@@ -12,7 +12,26 @@ export default function WebinarPage() {
 
   useEffect(() => {
     // Loga view na central do dashboard quando a página do webinario carrega
-    logPageView("/aula");
+    const eventId = crypto.randomUUID();
+
+    // Disparo browser-side do PageView com eventID
+    if (typeof window !== "undefined" && typeof (window as any).fbq === "function") {
+      (window as any).fbq("track", "PageView", {}, { eventID: eventId });
+    }
+
+    // Captura cookies de tracking do Meta
+    const getCookie = (name: string) => {
+      const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+      return match ? decodeURIComponent(match[2]) : undefined;
+    };
+
+    logPageView({
+      path: "/aula",
+      eventId,
+      fbp: getCookie("_fbp"),
+      fbc: getCookie("_fbc"),
+      eventSourceUrl: window.location.href,
+    });
   }, []);
 
   // Hydration safety: só exibe a UI depois de ler o timezone client e envs no browser
