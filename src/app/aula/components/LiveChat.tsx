@@ -26,6 +26,7 @@ export default function LiveChat() {
   const [showNicknameInput, setShowNicknameInput] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [viewerCount, setViewerCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -70,7 +71,7 @@ export default function LiveChat() {
       .on(
         "postgres_changes",
         {
-          event: "INSERT",
+          event: "UPDATE",
           schema: "public",
           table: "chat_messages",
           filter: "is_visible=eq.true",
@@ -156,6 +157,8 @@ export default function LiveChat() {
       markMessageSent();
       setNewMessage("");
       isAutoScrollEnabled.current = true;
+      setSuccessMsg("Enviada! Aguardando aprovação.");
+      setTimeout(() => setSuccessMsg(null), 3000);
     }
 
     setSending(false);
@@ -230,7 +233,7 @@ export default function LiveChat() {
 
       {/* ÁREA DE INPUT */}
       <div className="border-t border-white/5 p-3 bg-white/[0.02] shrink-0">
-        {/* Erro */}
+        {/* Feedback */}
         <AnimatePresence>
           {error && (
             <motion.p
@@ -240,6 +243,16 @@ export default function LiveChat() {
               className="text-red-400 text-[11px] mb-2 px-1"
             >
               {error}
+            </motion.p>
+          )}
+          {successMsg && (
+            <motion.p
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="text-green-400 text-[11px] mb-2 px-1"
+            >
+              ✓ {successMsg}
             </motion.p>
           )}
         </AnimatePresence>

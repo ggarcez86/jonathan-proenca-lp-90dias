@@ -3,28 +3,44 @@
 import { supabaseAdmin } from "@/lib/supabase";
 import { cookies } from "next/headers";
 
-/**
- * Oculta uma mensagem do chat (moderação).
- * Somente acessível para admins autenticados no dashboard.
- */
-export async function hideMessage(messageId: string) {
-  // Verifica autenticação do dashboard
+async function checkAuth() {
   const cookieStore = await cookies();
   const session = cookieStore.get("dashboard_auth");
+  return session?.value === "true";
+}
 
-  if (!session || session.value !== "true") {
-    return { error: "Não autorizado." };
-  }
+/**
+ * Aprova uma mensagem pendente (torna visível no chat público).
+ */
+export async function approveMessage(messageId: string) {
+  if (!(await checkAuth())) return { error: "Não autorizado." };
 
   const { error } = await supabaseAdmin
     .from("chat_messages")
-    .update({ is_visible: false })
+    .update({ is_visible: true })
     .eq("id", messageId);
 
   if (error) {
-    console.error("Erro ao ocultar mensagem:", error);
-    return { error: "Falha ao ocultar mensagem." };
+    console.error("Erro ao aprovar mensagem:", error);
+    return { error: "Falha ao aprovar mensagem." };
   }
+  return { success: true };
+}
 
+/**
+ * Rejeita/oculta uma mensagem do chat.
+ */
+export async function hideMessage(messageId: string) {
+  if (!(await checkAuth())) return { error: "Não autorizado." };
+
+  const { error } = await supabaseAdmin
+    .from("chat_messages")
+    .delete()
+    .eq("id", messageId);
+
+  if (error) {
+    console.error("Erro ao rejeitar mensagem:", error);
+    return { error: "Falha ao rejeitar mensagem." };
+  }
   return { success: true };
 }
