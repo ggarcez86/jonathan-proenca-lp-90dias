@@ -36,7 +36,7 @@ export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible
           </p>
           
           <h2 className="font-display text-3xl sm:text-4xl text-white mb-4 relative z-10">
-            Método Próxima Cadeira
+            Método Liga Executiva
           </h2>
 
           <p className="w-full text-text-mid font-body text-[0.95rem] sm:text-base mb-8 relative z-10 leading-relaxed px-4 sm:px-12 lg:px-24">

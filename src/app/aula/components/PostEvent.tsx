@@ -27,7 +27,7 @@ export default function PostEvent() {
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
         className="text-text-mid font-body text-center mt-4 text-sm sm:text-base max-w-2xl mb-12"
       >
-        O replay dessa masterclass sairá do ar em breve. Se você quer o Método Próxima Cadeira, as inscrições estão oficialmente abertas logo abaixo.
+        O replay dessa masterclass sairá do ar em breve. Se você quer o Método Liga Executiva, as inscrições estão oficialmente abertas logo abaixo.
       </motion.p>
 
       {/* PLAYER CONTAINER */}
@@ -35,10 +35,14 @@ export default function PostEvent() {
         initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
         className="relative w-full max-w-[1100px] mx-auto aspect-video bg-[#0A0A0B] rounded-xl overflow-hidden shadow-2xl border border-white/10"
       >
-        {/* Placeholder do Iframe */}
-        <div className="absolute inset-0 flex items-center justify-center text-text-low border-2 border-dashed border-white/5 m-4 rounded-lg bg-surface-1/50">
-           [O Vídeo da Vturb entrará neste espaço na versão de Produção]
-        </div>
+        <iframe
+          src="https://www.youtube.com/embed/SKrnEMESjOw?autoplay=1&rel=0"
+          title="Aula ao Vivo (Replay)"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          className="absolute inset-0 w-full h-full border-0"
+        />
       </motion.div>
 
       {/* COMPONENTE TEMPORIZADO DE VENDAS (Aberto por padrão no Replay) */}
@@ -56,7 +60,7 @@ export default function PostEvent() {
           <p className="p-4 bg-surface-1 rounded-xl text-sm text-text-mid border border-white/5">01. Por que entregar resultado não é suficiente e o que realmente faz alguém ser promovido.</p>
           <p className="p-4 bg-surface-1 rounded-xl text-sm text-text-mid border border-white/5">02. O mapa de percepção: como seu gestor realmente decide quem sobe.</p>
           <p className="p-4 bg-surface-1 rounded-xl text-sm text-text-mid border border-white/5">03. A conversa de carreira que muda o jogo em 90 dias.</p>
-          <p className="p-4 bg-surface-1 rounded-xl text-sm text-text-mid border border-white/5">04. O caminho guiado para escalar sua carreira com a mentoria Método Próxima Cadeira.</p>
+          <p className="p-4 bg-surface-1 rounded-xl text-sm text-text-mid border border-white/5">04. O caminho guiado para escalar sua carreira com a mentoria Método Liga Executiva.</p>
         </div>
       </motion.div>
 

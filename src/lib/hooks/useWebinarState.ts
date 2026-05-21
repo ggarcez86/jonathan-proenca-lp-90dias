@@ -22,9 +22,9 @@ export function useWebinarState() {
         }
       }
       const now = new Date();
-      // Datas injetadas via env variables na Vercel (com fallback rígido para evitar falha se o Env não for upado)
-      const startStr = process.env.NEXT_PUBLIC_WEBINAR_START || "2026-05-21T21:00:00-03:00";
-      const endStr = process.env.NEXT_PUBLIC_WEBINAR_END || "2026-05-21T23:00:00-03:00";
+      // Forçando data hardcoded para evitar que a Vercel injete a ENV velha do dashboard
+      const startStr = "2026-05-21T21:00:00-03:00";
+      const endStr = "2026-05-21T23:00:00-03:00";
 
       if (!startStr || !endStr) {
         // Se as datas não estiverem configuradas, caímos por padrão no PRE (sala de espera)
