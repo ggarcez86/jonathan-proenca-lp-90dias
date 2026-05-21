@@ -1,10 +1,49 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import TimedSalesCTA from "./TimedSalesCTA";
 import LiveChat from "./LiveChat";
+import { supabaseBrowser } from "@/lib/supabase-browser";
 
 export default function LiveEvent() {
+  const [chatEnabled, setChatEnabled] = useState(false);
+
+  useEffect(() => {
+    // Busca estado inicial
+    const fetchConfig = async () => {
+      const { data } = await supabaseBrowser
+        .from("site_config")
+        .select("value")
+        .eq("key", "chat_enabled")
+        .single();
+      
+      if (data) setChatEnabled(data.value);
+    };
+    fetchConfig();
+
+    // Inscreve pra mudanças em tempo real
+    const channel = supabaseBrowser
+      .channel("site-config-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "site_config",
+          filter: "key=eq.chat_enabled",
+        },
+        (payload) => {
+          setChatEnabled(payload.new.value);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabaseBrowser.removeChannel(channel);
+    };
+  }, []);
+
   return (
     <div className="max-w-[1920px] mx-auto w-full px-4 sm:px-6 py-6 pb-24 flex flex-col items-center">
       
@@ -47,9 +86,19 @@ export default function LiveEvent() {
         </div>
 
         {/* CHAT LATERAL */}
-        <div className="w-full lg:w-[380px] h-[400px] sm:h-[450px] lg:h-auto lg:min-h-[500px] shrink-0">
-          <LiveChat />
-        </div>
+        <AnimatePresence>
+          {chatEnabled && (
+            <motion.div 
+              initial={{ opacity: 0, width: 0, scale: 0.95 }}
+              animate={{ opacity: 1, width: "auto", scale: 1 }}
+              exit={{ opacity: 0, width: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="w-full lg:w-[380px] h-[400px] sm:h-[450px] lg:h-auto lg:min-h-[500px] shrink-0"
+            >
+              <LiveChat />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
       {/* COMPONENTE TEMPORIZADO DE VENDAS */}

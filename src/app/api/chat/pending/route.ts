@@ -28,8 +28,16 @@ export async function GET() {
     .order("created_at", { ascending: false })
     .limit(50);
 
+  // Busca status do chat
+  const { data: config } = await supabaseAdmin
+    .from("site_config")
+    .select("value")
+    .eq("key", "chat_enabled")
+    .single();
+
   return NextResponse.json({
     pending: pending || [],
     approved: approved || [],
+    chat_enabled: config?.value || false,
   });
 }

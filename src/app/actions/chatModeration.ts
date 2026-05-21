@@ -44,3 +44,22 @@ export async function hideMessage(messageId: string) {
   }
   return { success: true };
 }
+
+/**
+ * Ativa/Desativa o chat em tempo real.
+ */
+export async function toggleChatEnabled(enabled: boolean) {
+  if (!(await checkAuth())) return { error: "Não autorizado." };
+
+  const { error } = await supabaseAdmin
+    .from("site_config")
+    .update({ value: enabled })
+    .eq("key", "chat_enabled");
+
+  if (error) {
+    console.error("Erro ao alternar chat:", error);
+    return { error: "Falha ao alterar status do chat." };
+  }
+  return { success: true };
+}
+
