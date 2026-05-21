@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Aula ao Vivo · Como Ser Promovido em 90 Dias",
-  description: "Assista à aula gratuita com Jonathan Proença sobre o método de promoção em 90 dias. Ao vivo, com vagas limitadas.",
+  title: "Aula ao Vivo · Método Liga Executiva",
+  description: "Assista à aula gratuita com Jonathan Proença sobre o Método Liga Executiva. Ao vivo, com vagas limitadas.",
   robots: "noindex, nofollow", // Impede google crawlers de achar essa página secreta
 };
 
