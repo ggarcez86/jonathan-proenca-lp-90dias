@@ -71,7 +71,7 @@ export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible
           </p>
 
           <a 
-            href={process.env.NEXT_PUBLIC_SALES_URL || "https://pay.hotmart.com/L102708620R?off=b4vb56bd&bid=1779411468211"}
+            href="https://pay.hotmart.com/L102708620R?off=b4vb56bd&bid=1779411468211"
             target="_blank" rel="noopener noreferrer"
             className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-8 py-4 bg-accent hover:bg-white text-bg font-bold font-body text-sm sm:text-base uppercase tracking-widest rounded-xl transition-all duration-300 relative z-10 shadow-[0_0_30px_rgba(201,169,97,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:-translate-y-1"
           >
