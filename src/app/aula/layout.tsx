@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Aula ao Vivo · Método Liga Executiva",
@@ -12,6 +13,19 @@ export default function AulaLayout({
   children: React.ReactNode;
 }) {
   return (
+    <>
+      {/* Vturb performance timing — deve rodar o mais cedo possível */}
+      <Script id="vturb-perf" strategy="afterInteractive">{`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}</Script>
+
+      {/* Preload e DNS prefetch para o player Vturb */}
+      <link rel="preload" href="https://scripts.converteai.net/cfd49a9b-b153-4e3b-85ad-c2a646843a51/players/6a108c4cd754ee16b0556d1c/v4/player.js" as="script" />
+      <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
+      <link rel="preload" href="https://cdn.converteai.net/cfd49a9b-b153-4e3b-85ad-c2a646843a51/6a108b7870a79c09bac92e68/main.m3u8" as="fetch" crossOrigin="anonymous" />
+      <link rel="dns-prefetch" href="https://cdn.converteai.net" />
+      <link rel="dns-prefetch" href="https://scripts.converteai.net" />
+      <link rel="dns-prefetch" href="https://images.converteai.net" />
+      <link rel="dns-prefetch" href="https://license.vturb.com" />
+
     <div className="min-h-screen bg-bg flex flex-col font-body selection:bg-accent/30 selection:text-white">
       {/* NAVBAR MINIMALISTA BLINDADA */}
       <nav className="relative z-50 w-full border-b border-border bg-[#0A0A0B]/80 backdrop-blur-xl">
@@ -32,5 +46,6 @@ export default function AulaLayout({
         <p>© 2026 Jonathan Proença · Todos os direitos reservados</p>
       </footer>
     </div>
+    </>
   );
 }
