@@ -51,9 +51,8 @@ export default function LiveEvent() {
         events: {
           onStateChange: (e: any) => {
             if (e.data === 0) { // 0 = YT.PlayerState.ENDED
+              playerRef.current = null; // prevent cleanup from calling destroy
               setVideoEnded(true);
-              try { playerRef.current?.destroy(); } catch {}
-              playerRef.current = null;
             }
           },
         },
