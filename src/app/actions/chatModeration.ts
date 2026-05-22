@@ -64,6 +64,24 @@ export async function toggleChatEnabled(enabled: boolean) {
 }
 
 /**
+ * Força o reload de todos os browsers com /aula aberto.
+ */
+export async function triggerForceReload() {
+  if (!(await checkAuth())) return { error: "Não autorizado." };
+
+  const { error } = await supabaseAdmin
+    .from("site_config")
+    .update({ value: Date.now() })
+    .eq("key", "force_reload");
+
+  if (error) {
+    console.error("Erro ao forçar reload:", error);
+    return { error: "Falha ao forçar reload." };
+  }
+  return { success: true };
+}
+
+/**
  * Ativa/Desativa o CTA de vendas em tempo real.
  */
 export async function toggleCtaVisible(enabled: boolean) {

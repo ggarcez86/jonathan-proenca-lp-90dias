@@ -3,12 +3,24 @@
 import { useWebinarState } from "@/lib/hooks/useWebinarState";
 import { useEffect } from "react";
 import { logPageView } from "@/app/actions/logAnalytics";
+import { supabaseBrowser } from "@/lib/supabase-browser";
 import PreEvent from "./components/PreEvent";
 import LiveEvent from "./components/LiveEvent";
 import PostEvent from "./components/PostEvent";
 
 export default function WebinarPage() {
   const { state, mounted } = useWebinarState();
+
+  useEffect(() => {
+    const channel = supabaseBrowser
+      .channel("force-reload")
+      .on("postgres_changes",
+        { event: "UPDATE", schema: "public", table: "site_config", filter: "key=eq.force_reload" },
+        () => { window.location.reload(); }
+      )
+      .subscribe();
+    return () => { supabaseBrowser.removeChannel(channel); };
+  }, []);
 
   useEffect(() => {
     // Loga view na central do dashboard quando a página do webinario carrega

@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { supabaseAdmin } from "@/lib/supabase";
-import { approveMessage, hideMessage, toggleChatEnabled, toggleCtaVisible } from "@/app/actions/chatModeration";
-import { Check, X, MessageCircle, ArrowLeft, Power, ShoppingCart } from "lucide-react";
+import { approveMessage, hideMessage, toggleChatEnabled, toggleCtaVisible, triggerForceReload } from "@/app/actions/chatModeration";
+import { Check, X, MessageCircle, ArrowLeft, Power, ShoppingCart, RefreshCw } from "lucide-react";
 
 type ChatMessage = {
   id: string;
@@ -22,6 +22,7 @@ export default function ChatModerationPage() {
   const [ctaVisible, setCtaVisible] = useState(false);
   const [toggling, setToggling] = useState(false);
   const [togglingCta, setTogglingCta] = useState(false);
+  const [reloading, setReloading] = useState(false);
 
   const loadMessages = useCallback(async () => {
     // Busca mensagens pendentes via API direta (o RLS bloqueia is_visible=false para anon,
@@ -82,6 +83,14 @@ export default function ChatModerationPage() {
     setToggling(false);
   };
 
+  const handleForceReload = async () => {
+    if (!confirm("Forçar reload em todos os browsers com /aula aberto?")) return;
+    setReloading(true);
+    const result = await triggerForceReload();
+    if (result.error) alert(result.error);
+    setReloading(false);
+  };
+
   const handleToggleCta = async () => {
     setTogglingCta(true);
     const result = await toggleCtaVisible(!ctaVisible);
@@ -135,6 +144,14 @@ export default function ChatModerationPage() {
                 >
                   <ShoppingCart className="w-3 h-3" />
                   {ctaVisible ? "Pitch On" : "Pitch Off"}
+                </button>
+                <button
+                  onClick={handleForceReload}
+                  disabled={reloading}
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider transition-colors bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 disabled:opacity-50"
+                >
+                  <RefreshCw className="w-3 h-3" />
+                  {reloading ? "Enviando..." : "Forçar Reload"}
                 </button>
               </h1>
               <p className="text-sm text-text-low mt-0.5">

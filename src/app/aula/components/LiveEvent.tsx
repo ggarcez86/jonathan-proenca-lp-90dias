@@ -66,15 +66,16 @@ export default function LiveEvent() {
       >
         {/* PLAYER CONTAINER */}
         <div className="flex-1 min-w-0">
-          <div className="relative w-full aspect-video bg-[#0A0A0B] rounded-xl overflow-hidden shadow-2xl border border-white/10">
-            <iframe
-              src="https://www.youtube.com/embed/SKrnEMESjOw?autoplay=1&rel=0"
-              title="Aula ao Vivo"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="absolute inset-0 w-full h-full border-0"
-            />
+          <div className="relative w-full aspect-video bg-[#0A0A0B] rounded-xl overflow-hidden shadow-2xl border border-white/10 flex items-center justify-center">
+            <div className="text-center px-8">
+              <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-5">
+                <svg className="w-6 h-6 text-text-low" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 7.5A2.25 2.25 0 017.5 5.25h9a2.25 2.25 0 012.25 2.25v9a2.25 2.25 0 01-2.25 2.25h-9a2.25 2.25 0 01-2.25-2.25v-9z" />
+                </svg>
+              </div>
+              <p className="text-text-high font-body font-semibold text-base">A transmissão ao vivo foi encerrada.</p>
+              <p className="text-text-low font-body text-sm mt-2">O replay estará disponível em breve.</p>
+            </div>
           </div>
 
           {/* DADOS ABAIXO DO VIDEO */}
