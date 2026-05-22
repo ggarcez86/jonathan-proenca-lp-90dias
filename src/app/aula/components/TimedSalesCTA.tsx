@@ -4,13 +4,24 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabaseBrowser } from "@/lib/supabase-browser";
 
-export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible?: boolean }) {
+const PROOF_POINTS = [
+  "Acompanhamento individual por 90 dias para os 20 primeiros",
+  "O mesmo método que gerou 11 promoções e 4 transferências internacionais",
+  "Turmas pequenas — cada caso exige atenção individual",
+];
+
+export default function TimedSalesCTA({
+  alwaysVisible = false,
+  appearAfterSeconds = Number(process.env.NEXT_PUBLIC_CTA_APPEAR_SECONDS ?? 3600),
+}: {
+  alwaysVisible?: boolean;
+  appearAfterSeconds?: number;
+}) {
   const [visible, setVisible] = useState(alwaysVisible);
 
   useEffect(() => {
     if (alwaysVisible) return;
 
-    // Fetch estado inicial do Supabase (toggle manual do dashboard)
     supabaseBrowser
       .from("site_config")
       .select("value")
@@ -18,23 +29,25 @@ export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible
       .single()
       .then(({ data }) => { if (data?.value) setVisible(true); });
 
-    // Escuta toggle em tempo real (sem precisar de refresh)
     const channel = supabaseBrowser
       .channel("cta-config-changes")
-      .on(
-        "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "site_config", filter: "key=eq.cta_visible" },
-        (payload) => { if (payload.new.value) setVisible(true); }
-      )
+      .on("postgres_changes", {
+        event: "UPDATE",
+        schema: "public",
+        table: "site_config",
+        filter: "key=eq.cta_visible",
+      }, (payload) => { if (payload.new.value) setVisible(true); })
       .subscribe();
 
-    const timer = setTimeout(() => setVisible(true), 60 * 60 * 1000); // 60 min
+    const timer = setTimeout(() => setVisible(true), appearAfterSeconds * 1000);
 
     return () => {
       supabaseBrowser.removeChannel(channel);
       clearTimeout(timer);
     };
-  }, [alwaysVisible]);
+  }, [alwaysVisible, appearAfterSeconds]);
+
+  const salesUrl = process.env.NEXT_PUBLIC_SALES_URL ?? "";
 
   return (
     <AnimatePresence>
@@ -43,36 +56,76 @@ export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mt-12 bg-gradient-to-b from-[#141416] to-[#0A0A0B] border border-accent/20 rounded-2xl p-8 sm:p-12 text-center max-w-3xl mx-auto shadow-2xl relative overflow-hidden"
+          className="mt-12 max-w-[640px] mx-auto"
         >
-          {/* Brilho de Fundo do CTA */}
-          <div className="absolute inset-0 bg-accent/5 rounded-2xl blur-3xl pointer-events-none" />
+          <div className="bg-surface-1 border border-border rounded-lg overflow-hidden">
 
-          <p className="text-sm font-bold text-accent uppercase tracking-widest mb-3 relative z-10">
-            {alwaysVisible ? "Participou da aula?" : "Inscrições abertas para a Mentoria"}
-          </p>
-          
-          <h2 className="font-display text-3xl sm:text-4xl text-white mb-4 relative z-10">
-            Método Liga Executiva
-          </h2>
+            {/* 1. Filete dourado */}
+            <div
+              className="h-[3px] w-full"
+              style={{ background: "linear-gradient(to right, transparent, var(--accent), transparent)" }}
+            />
 
-          <p className="w-full text-text-mid font-body text-[0.95rem] sm:text-base mb-8 relative z-10 leading-relaxed px-4 sm:px-12 lg:px-24">
-            {alwaysVisible 
-              ? "Se você quer aplicar esse método com meu acompanhamento de perto, as inscrições estão oficialmente abertas." 
-              : "Condição especial exclusiva para quem está ao vivo. Válida apenas durante esta sessão."}
-          </p>
+            {/* Bloco superior — badge, headline, nome, divisor, proof points */}
+            <div className="flex flex-col items-center text-center px-8 pt-10 pb-8">
 
-          <a 
-            href="https://pay.hotmart.com/L102708620R?off=b4vb56bd&bid=1779411468211"
-            target="_blank" rel="noopener noreferrer"
-            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-8 py-4 bg-accent hover:bg-white text-bg font-bold font-body text-sm sm:text-base uppercase tracking-widest rounded-xl transition-all duration-300 relative z-10 shadow-[0_0_30px_rgba(201,169,97,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:-translate-y-1"
-          >
-            Quero conhecer a mentoria →
-          </a>
+              {/* 2. Badge */}
+              <span className="font-body font-semibold text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
+                Para quem não quer esperar mais
+              </span>
 
-          <p className="text-xs text-text-low font-body mt-6 uppercase tracking-widest relative z-10">
-            Vagas limitadas · Turma Especial
-          </p>
+              {/* 3. Headline */}
+              <h2 className="font-display text-[28px] leading-snug text-text-high mb-4">
+                Você já sabe o problema.<br />
+                Agora tem o método.
+              </h2>
+
+              {/* 4. Subtítulo */}
+              <p className="font-body text-[14px] text-text-low mb-1">Mentoria</p>
+
+              {/* 5. Nome em destaque */}
+              <p className="font-display text-[22px] text-accent">Liga Executiva</p>
+
+              {/* 6. Divisor curto */}
+              <div className="w-[60px] h-px bg-border my-7" />
+
+              {/* 7. Proof points — alinhados à esquerda, centralizados no bloco */}
+              <ul className="flex flex-col gap-3 text-left w-full max-w-[400px]">
+                {PROOF_POINTS.map((point) => (
+                  <li key={point} className="flex items-start gap-3 font-body text-[13px] text-text-mid">
+                    <span className="text-accent shrink-0 leading-relaxed select-none">—</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+
+            </div>
+
+            {/* 8. Bloco de urgência */}
+            <div className="bg-surface-2 border-t border-border px-8 py-6 text-center">
+              <p className="font-display text-[15px] text-text-high italic leading-relaxed">
+                "Daqui a 90 dias você vai estar no mesmo cargo,{" "}
+                <br className="hidden sm:inline" />
+                ou vai estar contando como chegou lá."
+              </p>
+            </div>
+
+            {/* 9. Botão + 10. Microcopy */}
+            <div className="flex flex-col items-center px-8 py-8">
+              <a
+                href={salesUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-accent text-accent-fg font-body font-bold text-sm uppercase tracking-widest rounded-md transition-opacity hover:opacity-90"
+              >
+                Quero minha vaga na Liga Executiva →
+              </a>
+              <p className="font-body text-[12px] text-text-low text-center mt-4 leading-relaxed">
+                Condição exclusiva para quem assistiu a aula · Página de inscrição com todos os detalhes
+              </p>
+            </div>
+
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
