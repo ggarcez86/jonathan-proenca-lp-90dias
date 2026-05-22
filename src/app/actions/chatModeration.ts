@@ -69,13 +69,28 @@ export async function toggleChatEnabled(enabled: boolean) {
 export async function triggerForceReload() {
   if (!(await checkAuth())) return { error: "Não autorizado." };
 
-  const { error } = await supabaseAdmin
-    .from("site_config")
-    .upsert({ key: "force_reload", value: Date.now() }, { onConflict: "key" });
+  const timestamp = Date.now();
 
-  if (error) {
-    console.error("Erro ao forçar reload:", error);
+  const { data: updated, error: updateError } = await supabaseAdmin
+    .from("site_config")
+    .update({ value: timestamp })
+    .eq("key", "force_reload")
+    .select();
+
+  if (updateError) {
+    console.error("Erro ao forçar reload (update):", updateError);
     return { error: "Falha ao forçar reload." };
+  }
+
+  if (!updated || updated.length === 0) {
+    const { error: insertError } = await supabaseAdmin
+      .from("site_config")
+      .insert({ key: "force_reload", value: timestamp });
+
+    if (insertError) {
+      console.error("Erro ao forçar reload (insert):", insertError);
+      return { error: "Falha ao forçar reload." };
+    }
   }
   return { success: true };
 }
