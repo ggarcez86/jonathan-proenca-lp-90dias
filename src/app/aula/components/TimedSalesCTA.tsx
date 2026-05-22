@@ -9,13 +9,15 @@ export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible
   useEffect(() => {
     if (alwaysVisible) return;
 
-    // Tempo de aparecimento (ex: 4500s = 75 minutos). Padrão super rápido de 5seg pra testes se não achar a env
-    const CTA_SECONDS = Number(process.env.NEXT_PUBLIC_CTA_APPEAR_SECONDS || 5);
-    
-    const timer = setTimeout(() => {
-      setVisible(true);
-    }, CTA_SECONDS * 1000);
+    const targetTime = new Date("2026-05-21T22:08:00-03:00");
+    const delay = targetTime.getTime() - Date.now();
 
+    if (delay <= 0) {
+      setVisible(true);
+      return;
+    }
+
+    const timer = setTimeout(() => setVisible(true), delay);
     return () => clearTimeout(timer);
   }, [alwaysVisible]);
 
