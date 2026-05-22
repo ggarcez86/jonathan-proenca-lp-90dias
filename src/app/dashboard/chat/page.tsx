@@ -271,7 +271,7 @@ export default function ChatModerationPage() {
                   {approved.map((msg) => (
                     <div
                       key={msg.id}
-                      className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#0A0A0B]/50 border border-white/5"
+                      className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#0A0A0B]/50 border border-white/5 hover:border-red-500/20 transition-colors group"
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-baseline gap-2">
@@ -280,7 +280,18 @@ export default function ChatModerationPage() {
                         </div>
                         <p className="text-text-mid text-sm break-words">{msg.message}</p>
                       </div>
-                      <Check className="w-3.5 h-3.5 text-green-500/40 shrink-0" />
+                      <button
+                        onClick={async () => {
+                          const result = await hideMessage(msg.id);
+                          if (result.error) alert(result.error);
+                          else setApproved((prev) => prev.filter((m) => m.id !== msg.id));
+                        }}
+                        disabled={processingId === msg.id}
+                        className="p-1.5 text-text-low/30 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all opacity-0 group-hover:opacity-100 shrink-0"
+                        title="Remover mensagem"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   ))}
                 </div>
