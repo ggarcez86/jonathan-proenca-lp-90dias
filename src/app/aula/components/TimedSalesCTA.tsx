@@ -28,19 +28,13 @@ export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible
       )
       .subscribe();
 
-    // Fallback por horário absoluto: 22:08 BRT
-    const targetTime = new Date("2026-05-21T22:08:00-03:00");
-    const delay = targetTime.getTime() - Date.now();
-    let timer: ReturnType<typeof setTimeout> | null = null;
-    if (delay <= 0) {
-      setVisible(true);
-    } else {
-      timer = setTimeout(() => setVisible(true), delay);
-    }
+    // Timer relativo: aparece 60s após carregar a página (teste — ajustar depois)
+    const CTA_DELAY_MS = Number(process.env.NEXT_PUBLIC_CTA_APPEAR_SECONDS ?? 60) * 1000;
+    const timer = setTimeout(() => setVisible(true), CTA_DELAY_MS);
 
     return () => {
       supabaseBrowser.removeChannel(channel);
-      if (timer) clearTimeout(timer);
+      clearTimeout(timer);
     };
   }, [alwaysVisible]);
 
