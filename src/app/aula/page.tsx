@@ -22,6 +22,31 @@ export default function WebinarPage() {
     return () => { supabaseBrowser.removeChannel(channel); };
   }, []);
 
+  // Rastreia sessão para contagem de viewers
+  useEffect(() => {
+    let sid = localStorage.getItem("aula_sid");
+    if (!sid) {
+      sid = crypto.randomUUID();
+      localStorage.setItem("aula_sid", sid);
+    }
+
+    // Insere sessão no DB para total acumulado (ignora duplicata se recarregar)
+    supabaseBrowser
+      .from("viewer_sessions")
+      .upsert({ session_id: sid }, { onConflict: "session_id", ignoreDuplicates: true })
+      .then();
+
+    // Entra no canal de presença para contagem de ativos em tempo real
+    const presenceCh = supabaseBrowser.channel("aula-viewers");
+    presenceCh.subscribe(async (status) => {
+      if (status === "SUBSCRIBED") {
+        await presenceCh.track({ sid });
+      }
+    });
+
+    return () => { supabaseBrowser.removeChannel(presenceCh); };
+  }, []);
+
   useEffect(() => {
     // Loga view na central do dashboard quando a página do webinario carrega
     const eventId = crypto.randomUUID();

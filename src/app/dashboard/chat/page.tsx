@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { supabaseAdmin } from "@/lib/supabase";
+import { supabaseBrowser } from "@/lib/supabase-browser";
 import { approveMessage, hideMessage, toggleChatEnabled, toggleCtaVisible, triggerForceReload } from "@/app/actions/chatModeration";
-import { Check, X, MessageCircle, ArrowLeft, Power, ShoppingCart, RefreshCw } from "lucide-react";
+import { Check, X, MessageCircle, ArrowLeft, Power, ShoppingCart, RefreshCw, Users } from "lucide-react";
 
 type ChatMessage = {
   id: string;
@@ -23,6 +23,8 @@ export default function ChatModerationPage() {
   const [toggling, setToggling] = useState(false);
   const [togglingCta, setTogglingCta] = useState(false);
   const [reloading, setReloading] = useState(false);
+  const [activeViewers, setActiveViewers] = useState(0);
+  const [totalViewers, setTotalViewers] = useState(0);
 
   const loadMessages = useCallback(async () => {
     // Busca mensagens pendentes via API direta (o RLS bloqueia is_visible=false para anon,
@@ -34,16 +36,25 @@ export default function ChatModerationPage() {
       setApproved(data.approved || []);
       setChatEnabled(data.chat_enabled || false);
       setCtaVisible(data.cta_visible || false);
+      setTotalViewers(data.total_viewers || 0);
     }
     setLoading(false);
   }, []);
 
   useEffect(() => {
     loadMessages();
-    // Polling a cada 2 segundos para capturar novas mensagens pendentes
     const interval = setInterval(loadMessages, 2000);
     return () => clearInterval(interval);
   }, [loadMessages]);
+
+  // Contagem de viewers ativos via Presence
+  useEffect(() => {
+    const ch = supabaseBrowser.channel("aula-viewers");
+    ch.on("presence", { event: "sync" }, () => {
+      setActiveViewers(Object.keys(ch.presenceState()).length);
+    }).subscribe();
+    return () => { supabaseBrowser.removeChannel(ch); };
+  }, []);
 
   const handleApprove = async (messageId: string) => {
     setProcessingId(messageId);
@@ -166,6 +177,28 @@ export default function ChatModerationPage() {
             <ArrowLeft className="w-3 h-3" /> Dashboard
           </a>
         </header>
+
+        {/* MÉTRICAS DE VIEWERS */}
+        <div className="flex gap-4">
+          <div className="flex-1 bg-[#0A0A0B] border border-white/5 rounded-xl p-4 flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center shrink-0">
+              <Users className="w-4 h-4 text-green-400" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-green-400">{activeViewers}</p>
+              <p className="text-xs text-text-low uppercase tracking-widest">Assistindo agora</p>
+            </div>
+          </div>
+          <div className="flex-1 bg-[#0A0A0B] border border-white/5 rounded-xl p-4 flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+              <Users className="w-4 h-4 text-accent" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-accent">{totalViewers}</p>
+              <p className="text-xs text-text-low uppercase tracking-widest">Total de sessões</p>
+            </div>
+          </div>
+        </div>
 
         {loading ? (
           <div className="text-center py-20 text-text-low">Carregando...</div>

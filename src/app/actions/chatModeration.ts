@@ -101,14 +101,25 @@ export async function triggerForceReload() {
 export async function toggleCtaVisible(enabled: boolean) {
   if (!(await checkAuth())) return { error: "Não autorizado." };
 
-  const { error } = await supabaseAdmin
+  const { data: updated, error: updateError } = await supabaseAdmin
     .from("site_config")
     .update({ value: enabled })
-    .eq("key", "cta_visible");
+    .eq("key", "cta_visible")
+    .select();
 
-  if (error) {
-    console.error("Erro ao alternar CTA:", error);
+  if (updateError) {
+    console.error("Erro ao alternar CTA:", updateError);
     return { error: "Falha ao alterar status do CTA." };
+  }
+
+  if (!updated || updated.length === 0) {
+    const { error: insertError } = await supabaseAdmin
+      .from("site_config")
+      .insert({ key: "cta_visible", value: enabled });
+    if (insertError) {
+      console.error("Erro ao criar CTA (insert):", insertError);
+      return { error: "Falha ao alterar status do CTA." };
+    }
   }
   return { success: true };
 }

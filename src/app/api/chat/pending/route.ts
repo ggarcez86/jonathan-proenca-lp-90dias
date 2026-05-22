@@ -36,10 +36,16 @@ export async function GET() {
 
   const configMap = Object.fromEntries((configs || []).map((c) => [c.key, c.value]));
 
+  // Contagem total de sessões únicas
+  const { count: totalViewers } = await supabaseAdmin
+    .from("viewer_sessions")
+    .select("*", { count: "exact", head: true });
+
   return NextResponse.json({
     pending: pending || [],
     approved: approved || [],
     chat_enabled: configMap["chat_enabled"] || false,
     cta_visible: configMap["cta_visible"] || false,
+    total_viewers: totalViewers || 0,
   });
 }
