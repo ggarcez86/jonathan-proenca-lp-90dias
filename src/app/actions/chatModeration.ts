@@ -71,8 +71,7 @@ export async function triggerForceReload() {
 
   const { error } = await supabaseAdmin
     .from("site_config")
-    .update({ value: Date.now() })
-    .eq("key", "force_reload");
+    .upsert({ key: "force_reload", value: Date.now() }, { onConflict: "key" });
 
   if (error) {
     console.error("Erro ao forçar reload:", error);

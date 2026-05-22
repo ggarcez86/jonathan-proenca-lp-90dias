@@ -15,7 +15,7 @@ export default function WebinarPage() {
     const channel = supabaseBrowser
       .channel("force-reload")
       .on("postgres_changes",
-        { event: "UPDATE", schema: "public", table: "site_config", filter: "key=eq.force_reload" },
+        { event: "*", schema: "public", table: "site_config", filter: "key=eq.force_reload" },
         () => { window.location.reload(); }
       )
       .subscribe();
