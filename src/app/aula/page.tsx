@@ -3,6 +3,7 @@
 import { useWebinarState } from "@/lib/hooks/useWebinarState";
 import { useEffect } from "react";
 import { logPageView } from "@/app/actions/logAnalytics";
+import { logViewerSession } from "@/app/actions/logViewerSession";
 import { supabaseBrowser } from "@/lib/supabase-browser";
 import PreEvent from "./components/PreEvent";
 import LiveEvent from "./components/LiveEvent";
@@ -30,11 +31,8 @@ export default function WebinarPage() {
       localStorage.setItem("aula_sid", sid);
     }
 
-    // Insere sessão no DB para total acumulado (ignora duplicata se recarregar)
-    supabaseBrowser
-      .from("viewer_sessions")
-      .upsert({ session_id: sid }, { onConflict: "session_id", ignoreDuplicates: true })
-      .then(({ error }) => { if (error) console.warn("[viewer_sessions]", error.message); });
+    // Insere sessão via server action (admin key, sem restrição de RLS)
+    logViewerSession(sid);
 
     // Entra no canal de presença para contagem de ativos em tempo real
     const presenceCh = supabaseBrowser.channel("aula-viewers");
