@@ -63,3 +63,21 @@ export async function toggleChatEnabled(enabled: boolean) {
   return { success: true };
 }
 
+/**
+ * Ativa/Desativa o CTA de vendas em tempo real.
+ */
+export async function toggleCtaVisible(enabled: boolean) {
+  if (!(await checkAuth())) return { error: "Não autorizado." };
+
+  const { error } = await supabaseAdmin
+    .from("site_config")
+    .update({ value: enabled })
+    .eq("key", "cta_visible");
+
+  if (error) {
+    console.error("Erro ao alternar CTA:", error);
+    return { error: "Falha ao alterar status do CTA." };
+  }
+  return { success: true };
+}
+

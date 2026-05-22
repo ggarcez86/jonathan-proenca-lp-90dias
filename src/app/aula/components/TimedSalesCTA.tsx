@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabaseBrowser } from "@/lib/supabase-browser";
 
 export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible?: boolean }) {
   const [visible, setVisible] = useState(alwaysVisible);
@@ -9,16 +10,38 @@ export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible
   useEffect(() => {
     if (alwaysVisible) return;
 
+    // Fetch estado inicial do Supabase (toggle manual do dashboard)
+    supabaseBrowser
+      .from("site_config")
+      .select("value")
+      .eq("key", "cta_visible")
+      .single()
+      .then(({ data }) => { if (data?.value) setVisible(true); });
+
+    // Escuta toggle em tempo real (sem precisar de refresh)
+    const channel = supabaseBrowser
+      .channel("cta-config-changes")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "site_config", filter: "key=eq.cta_visible" },
+        (payload) => { if (payload.new.value) setVisible(true); }
+      )
+      .subscribe();
+
+    // Fallback por horário absoluto: 22:08 BRT
     const targetTime = new Date("2026-05-21T22:08:00-03:00");
     const delay = targetTime.getTime() - Date.now();
-
+    let timer: ReturnType<typeof setTimeout> | null = null;
     if (delay <= 0) {
       setVisible(true);
-      return;
+    } else {
+      timer = setTimeout(() => setVisible(true), delay);
     }
 
-    const timer = setTimeout(() => setVisible(true), delay);
-    return () => clearTimeout(timer);
+    return () => {
+      supabaseBrowser.removeChannel(channel);
+      if (timer) clearTimeout(timer);
+    };
   }, [alwaysVisible]);
 
   return (

@@ -28,16 +28,18 @@ export async function GET() {
     .order("created_at", { ascending: false })
     .limit(50);
 
-  // Busca status do chat
-  const { data: config } = await supabaseAdmin
+  // Busca status do chat e do CTA
+  const { data: configs } = await supabaseAdmin
     .from("site_config")
-    .select("value")
-    .eq("key", "chat_enabled")
-    .single();
+    .select("key, value")
+    .in("key", ["chat_enabled", "cta_visible"]);
+
+  const configMap = Object.fromEntries((configs || []).map((c) => [c.key, c.value]));
 
   return NextResponse.json({
     pending: pending || [],
     approved: approved || [],
-    chat_enabled: config?.value || false,
+    chat_enabled: configMap["chat_enabled"] || false,
+    cta_visible: configMap["cta_visible"] || false,
   });
 }

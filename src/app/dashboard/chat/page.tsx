@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { supabaseAdmin } from "@/lib/supabase";
-import { approveMessage, hideMessage, toggleChatEnabled } from "@/app/actions/chatModeration";
-import { Check, X, MessageCircle, ArrowLeft, Power } from "lucide-react";
+import { approveMessage, hideMessage, toggleChatEnabled, toggleCtaVisible } from "@/app/actions/chatModeration";
+import { Check, X, MessageCircle, ArrowLeft, Power, ShoppingCart } from "lucide-react";
 
 type ChatMessage = {
   id: string;
@@ -19,7 +19,9 @@ export default function ChatModerationPage() {
   const [loading, setLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [chatEnabled, setChatEnabled] = useState(false);
+  const [ctaVisible, setCtaVisible] = useState(false);
   const [toggling, setToggling] = useState(false);
+  const [togglingCta, setTogglingCta] = useState(false);
 
   const loadMessages = useCallback(async () => {
     // Busca mensagens pendentes via API direta (o RLS bloqueia is_visible=false para anon,
@@ -30,6 +32,7 @@ export default function ChatModerationPage() {
       setPending(data.pending || []);
       setApproved(data.approved || []);
       setChatEnabled(data.chat_enabled || false);
+      setCtaVisible(data.cta_visible || false);
     }
     setLoading(false);
   }, []);
@@ -79,6 +82,17 @@ export default function ChatModerationPage() {
     setToggling(false);
   };
 
+  const handleToggleCta = async () => {
+    setTogglingCta(true);
+    const result = await toggleCtaVisible(!ctaVisible);
+    if (result.error) {
+      alert(result.error);
+    } else {
+      setCtaVisible(!ctaVisible);
+    }
+    setTogglingCta(false);
+  };
+
   const formatTime = (dateStr: string) => {
     return new Date(dateStr).toLocaleTimeString("pt-BR", {
       hour: "2-digit",
@@ -96,19 +110,31 @@ export default function ChatModerationPage() {
           <div className="flex items-center gap-3">
             <MessageCircle className="w-6 h-6 text-accent" />
             <div>
-              <h1 className="font-display text-2xl text-white tracking-tight flex items-center gap-3">
+              <h1 className="font-display text-2xl text-white tracking-tight flex items-center gap-3 flex-wrap">
                 Moderação do Chat
                 <button
                   onClick={handleToggleChat}
                   disabled={toggling || loading}
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider transition-colors ${
-                    chatEnabled 
-                      ? "bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/30" 
+                    chatEnabled
+                      ? "bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/30"
                       : "bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
                   } disabled:opacity-50`}
                 >
                   <Power className="w-3 h-3" />
-                  {chatEnabled ? "Online" : "Offline"}
+                  {chatEnabled ? "Chat On" : "Chat Off"}
+                </button>
+                <button
+                  onClick={handleToggleCta}
+                  disabled={togglingCta || loading}
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider transition-colors ${
+                    ctaVisible
+                      ? "bg-accent/20 text-accent border border-accent/30 hover:bg-accent/30"
+                      : "bg-white/5 text-text-low border border-white/10 hover:bg-white/10"
+                  } disabled:opacity-50`}
+                >
+                  <ShoppingCart className="w-3 h-3" />
+                  {ctaVisible ? "Pitch On" : "Pitch Off"}
                 </button>
               </h1>
               <p className="text-sm text-text-low mt-0.5">
