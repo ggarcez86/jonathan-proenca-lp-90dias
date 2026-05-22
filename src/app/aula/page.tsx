@@ -34,7 +34,7 @@ export default function WebinarPage() {
     supabaseBrowser
       .from("viewer_sessions")
       .upsert({ session_id: sid }, { onConflict: "session_id", ignoreDuplicates: true })
-      .then();
+      .then(({ error }) => { if (error) console.warn("[viewer_sessions]", error.message); });
 
     // Entra no canal de presença para contagem de ativos em tempo real
     const presenceCh = supabaseBrowser.channel("aula-viewers");
