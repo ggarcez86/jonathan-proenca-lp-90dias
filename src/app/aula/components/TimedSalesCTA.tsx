@@ -28,7 +28,7 @@ export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible
       )
       .subscribe();
 
-    const timer = setTimeout(() => setVisible(true), 60_000);
+    const timer = setTimeout(() => setVisible(true), 60 * 60 * 1000); // 60 min
 
     return () => {
       supabaseBrowser.removeChannel(channel);
