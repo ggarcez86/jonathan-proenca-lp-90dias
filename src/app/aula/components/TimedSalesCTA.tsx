@@ -28,9 +28,7 @@ export default function TimedSalesCTA({ alwaysVisible = false }: { alwaysVisible
       )
       .subscribe();
 
-    // Timer relativo: aparece 60s após carregar a página (teste — ajustar depois)
-    const CTA_DELAY_MS = Number(process.env.NEXT_PUBLIC_CTA_APPEAR_SECONDS ?? 60) * 1000;
-    const timer = setTimeout(() => setVisible(true), CTA_DELAY_MS);
+    const timer = setTimeout(() => setVisible(true), 60_000);
 
     return () => {
       supabaseBrowser.removeChannel(channel);
